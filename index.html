@@ -51,7 +51,6 @@
       overflow-x: hidden;
     }
 
-    /* Background Ambient Glows */
     .glow-bg-1 {
       position: absolute;
       top: -10%;
@@ -64,7 +63,6 @@
       z-index: 0;
     }
 
-    /* Header Navigation */
     header {
       position: sticky;
       top: 0;
@@ -136,7 +134,6 @@
       box-shadow: 0 6px 24px rgba(99, 102, 241, 0.5);
     }
 
-    /* Layout Wrapper */
     .container {
       max-width: 1140px;
       margin: 0 auto;
@@ -145,7 +142,6 @@
       z-index: 1;
     }
 
-    /* Hero Section */
     .hero {
       text-align: center;
       padding: 90px 0 70px 0;
@@ -193,7 +189,6 @@
       flex-wrap: wrap;
     }
 
-    /* Feature Cards */
     .section-title {
       text-align: center;
       margin: 80px 0 16px 0;
@@ -259,7 +254,6 @@
       line-height: 1.6;
     }
 
-    /* Calculator Section */
     .calc-box {
       background: linear-gradient(135deg, rgba(17,24,39,0.9) 0%, rgba(15,23,42,0.95) 100%);
       border: 1px solid var(--accent-line);
@@ -314,7 +308,6 @@
       margin: 10px 0;
     }
 
-    /* Pricing Section */
     .pricing-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -335,7 +328,6 @@
       margin: 20px 0 10px 0;
     }
 
-    /* Footer */
     footer {
       border-top: 1px solid var(--border);
       padding: 40px 24px;
@@ -354,7 +346,6 @@
 
     footer a:hover { color: var(--accent); }
 
-    /* Modal Styling */
     .legal-modal-backdrop {
       display: none;
       position: fixed;
@@ -393,6 +384,7 @@
       border-bottom: 1px solid var(--border);
       margin-bottom: 20px;
       padding-bottom: 12px;
+      flex-wrap: wrap;
     }
 
     .legal-tab-btn {
@@ -428,7 +420,6 @@
       <a href="#features">Features</a>
       <a href="#roi">Einsparpotenzial</a>
       <a href="#pricing">Tarife</a>
-      <!-- KORRIGIERT: Verweist jetzt sauber auf login.html -->
       <a href="login.html" class="btn-login">Anmelden &rarr;</a>
     </div>
   </header>
@@ -445,7 +436,6 @@
         Veribase schützt Ihr Unternehmen vor Reklamationen. Mit automatischer GPS-Standortprüfung, KI-Smart-Scan und fälschungssicheren Fotobeweisen für Fahrer und Fuhrparkleiter.
       </p>
       <div class="hero-cta">
-        <!-- KORRIGIERT: Verweist jetzt sauber auf login.html -->
         <a href="login.html" class="btn-login" style="padding: 16px 36px; font-size: 16px;">Jetzt Anmelden / Login</a>
       </div>
     </section>
@@ -555,10 +545,14 @@
       <a href="#" onclick="openLegalModal('impressum'); return false;">Impressum</a>
       <span>•</span>
       <a href="#" onclick="openLegalModal('datenschutz'); return false;">Datenschutzerklärung</a>
+      <span>•</span>
+      <a href="#" onclick="openLegalModal('agb'); return false;">AGB (B2B)</a>
+      <span>•</span>
+      <a href="avv.pdf" target="_blank">AVV</a>
     </p>
   </footer>
 
-  <!-- Modal Impressum / Datenschutz -->
+  <!-- Modal Impressum / Datenschutz / AGB -->
   <div id="legalModal" class="legal-modal-backdrop" onclick="closeLegalModal(event)">
     <div class="legal-modal-content">
       <button class="legal-modal-close" onclick="closeLegalModalDirect()">&times;</button>
@@ -566,6 +560,7 @@
       <div class="legal-tab-nav">
         <button id="tabBtnImpressum" class="legal-tab-btn" onclick="switchLegalTab('impressum')">Impressum</button>
         <button id="tabBtnDatenschutz" class="legal-tab-btn" onclick="switchLegalTab('datenschutz')">Datenschutzerklärung</button>
+        <button id="tabBtnAgb" class="legal-tab-btn" onclick="switchLegalTab('agb')">AGB (B2B)</button>
       </div>
 
       <div id="contentImpressum" class="legal-tab-content">
@@ -587,6 +582,38 @@
         <p><strong>Allgemeine Hinweise:</strong> Veribase verarbeitet personenbezogene Daten (z.B. GPS-Daten, Zeitstempel, E-Mail-Adressen) ausschließlich im Rahmen der DSGVO zur Durchführung von Touren und Audits im B2B-Verhältnis.</p>
         <p>Verantwortlicher: Björn Koch, Thüringer Straße 37, 51766 Engelskirchen, E-Mail: hello@veribase-app.de</p>
       </div>
+
+      <div id="contentAgb" class="legal-tab-content">
+        <h2>Allgemeine Geschäftsbedingungen (AGB) – B2B</h2>
+        
+        <h3>§ 1 Geltungsbereich & Vertragspartner</h3>
+        <p>1. Diese AGB gelten für alle Verträge über die Nutzung der B2B-SaaS-Plattform Veribase (veribase-app.de) zwischen Björn Koch, Veribase, Thüringer Straße 37, 51766 Engelskirchen (Anbieter) und dem Kunden.</p>
+        <p>2. Das Angebot richtet sich ausschließlich an Unternehmer im Sinne des § 14 BGB. Ein Vertragsschluss mit Verbrauchern (§ 13 BGB) ist ausgeschlossen.</p>
+
+        <h3>§ 2 Leistungsumfang & Testphase</h3>
+        <p>1. Der Anbieter stellt dem Kunden die cloudbasierte Software Veribase zur Routen- und Tourendisposition, Fahrerführung sowie zur Foto- und Statusdokumentation zur Verfügung.</p>
+        <p>2. Neukunden erhalten auf Wunsch eine kostenlose 14-tägige Testphase. Der Testzugang endet automatisch, ohne dass es einer Kündigung bedarf.</p>
+
+        <h3>§ 3 Preise, Abrechnung & Zahlungsbedingungen</h3>
+        <p>1. Die Vergütung setzt sich aus dem gewählten Basistarif sowie ggf. einer variablen Gebühr pro weiterem Fahrer-Account zusammen. Alle Preise verstehen sich netto zzgl. gesetzlicher Umsatzsteuer.</p>
+        <p>2. Die Abrechnung erfolgt monatlich im Voraus. Die Zahlungsabwicklung erfolgt über den Zahlungsdienstleister Stripe (z. B. SEPA-Lastschrift, Kreditkarte).</p>
+
+        <h3>§ 4 Pflichten des Kunden & Datenschutz (AVV)</h3>
+        <p>1. Der Kunde ist verpflichtet, Zugangsdaten geheim zu halten und vor unbefugtem Zugriff zu schützen.</p>
+        <p>2. Der Kunde stellt eigenverantwortlich sicher, dass seine Mitarbeiter/Fahrer über die Erfassung von GPS-Daten und Foto-Uploads im Rahmen der App-Nutzung datenschutzkonform informiert wurden.</p>
+        <p>3. Soweit der Anbieter im Rahmen der Leistungserbringung personenbezogene Daten im Auftrag verarbeitet, gilt die Vereinbarung zur Auftragsverarbeitung (AVV) gemäß Art. 28 DSGVO, abrufbar unter <a href="avv.pdf" target="_blank" style="color: var(--accent);">veribase-app.de/avv.pdf</a>.</p>
+
+        <h3>§ 5 Verfügbarkeit & Haftung</h3>
+        <p>1. Der Anbieter strebt eine jährliche Durchschnittsverfügbarkeit der SaaS-Dienste von 98 % an (ausgenommen Wartungsarbeiten).</p>
+        <p>2. Die Haftung des Anbieters ist bei leicht fahrlässiger Verletzung unwesentlicher Vertragspflichten ausgeschlossen. Bei der Verletzung wesentlicher Vertragspflichten ist die Haftung auf den vorhersehbaren, vertragstypischen Schaden begrenzt.</p>
+
+        <h3>§ 6 Vertragslaufzeit & Kündigung</h3>
+        <p>1. Der Vertrag verlängert sich bei Monatsabos jeweils um einen weiteren Monat, wenn er nicht mit einer Frist von 14 Tagen zum Ende des jeweiligen Abrechnungsmonats gekündigt wird.</p>
+        <p>2. Das Recht zur fristlosen Kündigung aus wichtigem Grund bleibt unberührt.</p>
+
+        <h3>§ 7 Anwendbares Recht & Gerichtsstand</h3>
+        <p>Es gilt das Recht der Bundesrepublik Deutschland. Gerichtsstand ist, soweit gesetzlich zulässig, der Sitz des Anbieters.</p>
+      </div>
     </div>
   </div>
 
@@ -602,7 +629,6 @@
       document.getElementById('resultROI').innerText = savedAmount.toLocaleString('de-DE') + ' €';
     }
 
-    /* Modal Handler */
     function openLegalModal(tab) {
       document.getElementById('legalModal').style.display = 'flex';
       switchLegalTab(tab);
@@ -616,15 +642,21 @@
     function switchLegalTab(tabName) {
       document.getElementById('contentImpressum').classList.remove('active');
       document.getElementById('contentDatenschutz').classList.remove('active');
+      document.getElementById('contentAgb').classList.remove('active');
+      
       document.getElementById('tabBtnImpressum').classList.remove('active');
       document.getElementById('tabBtnDatenschutz').classList.remove('active');
+      document.getElementById('tabBtnAgb').classList.remove('active');
 
       if (tabName === 'impressum') {
         document.getElementById('contentImpressum').classList.add('active');
         document.getElementById('tabBtnImpressum').classList.add('active');
-      } else {
+      } else if (tabName === 'datenschutz') {
         document.getElementById('contentDatenschutz').classList.add('active');
         document.getElementById('tabBtnDatenschutz').classList.add('active');
+      } else if (tabName === 'agb') {
+        document.getElementById('contentAgb').classList.add('active');
+        document.getElementById('tabBtnAgb').classList.add('active');
       }
     }
   </script>
