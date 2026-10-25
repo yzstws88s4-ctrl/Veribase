@@ -351,7 +351,7 @@
     .legal-tab-content p { font-size: 0.88rem; line-height: 1.6; color: var(--text-sub); margin-bottom: 12px; }
   </style>
 
-  <!-- Strenger iOS PWA Navigation Fix (Verhindert das Ausbrechen in die Safari-Webansicht) -->
+  <!-- Strenger iOS PWA Navigation Fix -->
   <script>
     if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
       document.addEventListener('click', function(e) {
@@ -364,15 +364,15 @@
     }
   </script>
   <!-- Service Worker Registrierung für PWA -->
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log('Service Worker aktiv!', reg))
-        .catch(err => console.log('Service Worker Fehler:', err));
-    });
-  }
-</script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => console.log('Service Worker aktiv!', reg))
+          .catch(err => console.log('Service Worker Fehler:', err));
+      });
+    }
+  </script>
 </head>
 <body>
 
@@ -415,6 +415,8 @@
       <a href="#" onclick="openLegalModal('datenschutz'); return false;">Datenschutz</a>
       <span>•</span>
       <a href="#" onclick="openLegalModal('agb'); return false;">AGB (B2B)</a>
+      <span>•</span>
+      <a href="avv.pdf" target="_blank">AVV</a>
     </footer>
   </div>
 </div>
@@ -479,9 +481,10 @@
       <p>1. Die Vergütung setzt sich aus dem gewählten Basistarif sowie ggf. einer variablen Gebühr pro weiterem Fahrer-Account zusammen. Alle Preise verstehen sich netto zzgl. gesetzlicher Umsatzsteuer.</p>
       <p>2. Die Abrechnung erfolgt monatlich im Voraus. Die Zahlungsabwicklung erfolgt über den Zahlungsdienstleister Stripe (z. B. SEPA-Lastschrift, Kreditkarte).</p>
 
-      <h3>§ 4 Pflichten des Kunden & Datenschutz</h3>
+      <h3>§ 4 Pflichten des Kunden & Datenschutz (AVV)</h3>
       <p>1. Der Kunde ist verpflichtet, Zugangsdaten geheim zu halten und vor unbefugtem Zugriff zu schützen.</p>
       <p>2. Der Kunde stellt eigenverantwortlich sicher, dass seine Mitarbeiter/Fahrer über die Erfassung von GPS-Daten und Foto-Uploads im Rahmen der App-Nutzung datenschutzkonform informiert wurden.</p>
+      <p>3. Soweit der Anbieter im Rahmen der Leistungserbringung personenbezogene Daten im Auftrag verarbeitet, gilt die Vereinbarung zur Auftragsverarbeitung (AVV) gemäß Art. 28 DSGVO, abrufbar unter <a href="avv.pdf" target="_blank" style="color: var(--accent);">veribase-app.de/avv.pdf</a>.</p>
 
       <h3>§ 5 Verfügbarkeit & Haftung</h3>
       <p>1. Der Anbieter strebt eine jährliche Durchschnittsverfügbarkeit der SaaS-Dienste von 98 % an (ausgenommen Wartungsarbeiten).</p>
@@ -555,7 +558,6 @@
     }, 1200);
   }
 
-  // PWA-konforme Navigation, die das Ausbrechen in die Safari-Webansicht verhindert
   function pwaNavigate(url) {
     const a = document.createElement('a');
     a.href = url;
