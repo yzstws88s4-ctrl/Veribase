@@ -208,10 +208,16 @@ button:disabled { opacity: 0.3; cursor: not-allowed; }
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  background: var(--accent);
-  color: #ffffff;
-  border: none;
+  background: #ffffff;
+  color: #0f172a;
+  border: 2px solid var(--accent);
   box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+html[data-theme="dark"] .btn-navigate {
+  background: #0f172a;
+  color: #f9fafb;
+  border: 2px solid var(--accent);
 }
 
 textarea, input[type="text"] {
