@@ -211,6 +211,12 @@
       gap: 28px;
     }
 
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 28px;
+    }
+
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -315,6 +321,9 @@
       padding: 36px;
       text-align: center;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .pricing-card.featured {
@@ -323,9 +332,31 @@
     }
 
     .price-tag {
-      font-size: 40px;
+      font-size: 38px;
       font-weight: 800;
       margin: 20px 0 10px 0;
+    }
+
+    .pricing-features {
+      list-style: none;
+      padding: 0;
+      margin: 24px 0;
+      text-align: left;
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+
+    .pricing-features li {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pricing-features li::before {
+      content: "✓";
+      color: var(--accent);
+      font-weight: bold;
     }
 
     footer {
@@ -429,11 +460,11 @@
     <!-- Hero Section -->
     <section class="hero">
       <div class="badge">
-        <span>⚡ Fälschungssichere B2B-Plattform</span>
+        <span>⚡ Rechtssichere B2B-Plattform für Touren & Audits</span>
       </div>
-      <h1 class="hero-title">Keine Ausreden mehr bei Touren & Audits</h1>
+      <h1 class="hero-title">Keine Ausreden mehr bei Reklamationen</h1>
       <p class="hero-subtitle">
-        Veribase schützt Ihr Unternehmen vor Reklamationen. Mit automatischer GPS-Standortprüfung, KI-Smart-Scan und fälschungssicheren Fotobeweisen für Fahrer und Fuhrparkleiter.
+        Veribase schützt Ihren Betrieb vor unberechtigten Forderungen. Mit fälschungssicheren Fotobeweisen, GPS-Echtzeiterfassung und dem perfekten Dashboard für Fuhrparks & Einzelfahrer.
       </p>
       <div class="hero-cta">
         <a href="login.html" class="btn-login" style="padding: 16px 36px; font-size: 16px;">Jetzt Anmelden / Login</a>
@@ -442,7 +473,7 @@
 
     <!-- Features -->
     <h2 class="section-title" id="features">Features der Königsklasse</h2>
-    <p class="section-subtitle">Speziell entwickelt für Logistik, Entsorgung, Lieferdienste und Außendienst-Teams.</p>
+    <p class="section-subtitle">Entwickelt für Logistik, Entsorgung, Lieferdienste und Außendienst.</p>
 
     <div class="grid-3">
       <div class="card">
@@ -466,7 +497,7 @@
       <div class="card">
         <div class="card-icon">📊</div>
         <h3 class="card-title">Chef-Live-Dashboard</h3>
-        <p class="card-desc">Volle Transparenz im Büro. Verfolgen Sie im Dashboard den Tourenfortschritt aller Fahrer live und greifen Sie sofort auf Nachweise zu.</p>
+        <p class="card-desc">Volle Transparenz im Büro. Verfolgen Sie den Tourenfortschritt aller Fahrer live, planen Sie Routen und exportieren Sie Nachweise.</p>
       </div>
 
       <div class="card">
@@ -486,8 +517,8 @@
     <div class="calc-box" id="roi">
       <div class="calc-grid">
         <div>
-          <h2 style="margin-top:0; font-size: 28px;">Sparen Sie Zeit & Reklamationskosten</h2>
-          <p style="color: var(--text-sub);">Berechnen Sie Ihr jährliches Einsparpotenzial durch die Vermeidung unberechtigter Suchzeiten & Kundenreklamationen.</p>
+          <h2 style="margin-top:0; font-size: 28px;">Sparen Sie Zeit & Streitkosten</h2>
+          <p style="color: var(--text-sub);">Berechnen Sie Ihr jährliches Einsparpotenzial durch rechtssichere Beweise gegen unberechtigte Reklamationen.</p>
           
           <div class="slider-group">
             <label>Anzahl Fahrzeuge / Fahrer: <span id="valDrivers">5</span></label>
@@ -495,45 +526,61 @@
           </div>
 
           <div class="slider-group">
-            <label>Reklamationen / Monat: <span id="valComplaints">10</span></label>
-            <input type="range" id="inputComplaints" min="1" max="50" value="10" oninput="updateROI()">
+            <label>Streitfälle / Reklamationen pro Monat: <span id="valComplaints">4</span></label>
+            <input type="range" id="inputComplaints" min="1" max="20" value="4" oninput="updateROI()">
           </div>
         </div>
 
         <div class="calc-result">
           <div style="font-size:14px; font-weight:700; color:var(--text-sub); text-transform:uppercase;">Geschätzte Ersparnis pro Jahr</div>
-          <div class="result-number" id="resultROI">3.600 €</div>
-          <div style="font-size:13px; color:var(--text-sub);">Durch automatische Foto-Gegenbeweise & reduzierte Dispo-Rückfragen.</div>
+          <div class="result-number" id="resultROI">4.800 €</div>
+          <div style="font-size:13px; color:var(--text-sub);">Durch abgewendete Streitfälle, Anwaltskosten & Suchzeiten.</div>
         </div>
       </div>
     </div>
 
     <!-- Pricing Section -->
     <h2 class="section-title" id="pricing">Transparente B2B-Tarife</h2>
-    <p class="section-subtitle">Volle Kontrolle. Keine versteckten Zusatzkosten.</p>
+    <p class="section-subtitle">Ob Einzelfahrer oder große Flotte – volle Kontrolle ohne versteckte Kosten.</p>
 
-    <div class="grid-3" style="margin-bottom: 60px;">
+    <div class="grid-2" style="max-width: 800px; margin: 0 auto 60px auto;">
+      
+      <!-- Solo Tarif -->
       <div class="pricing-card">
-        <h3>Starter</h3>
-        <p style="color:var(--text-sub);">Für kleine Teams & Testbetriebe</p>
-        <div class="price-tag">29 € <span style="font-size:16px; color:var(--text-sub);">/Monat</span></div>
-        <p style="font-size:14px; color:var(--text-sub);">Inklusive bis zu 3 Fahrer-Lizenzen</p>
+        <div>
+          <h3>Solo-Tarif</h3>
+          <p style="color:var(--text-sub);">Für 1-Mann-Betriebe & Einzelfahrer</p>
+          <div class="price-tag">29 € <span style="font-size:16px; color:var(--text-sub);">/Monat</span></div>
+          <ul class="pricing-features">
+            <li>Touren-App für das Smartphone</li>
+            <li>Fälschungssichere Fotobeweise (GPS & Zeit)</li>
+            <li>OCR Smart-Scan für Tourlisten</li>
+            <li>Abgespecktes Dashboard (Eigene Daten)</li>
+            <li>Rechtssicherer PDF-Export</li>
+          </ul>
+        </div>
+        <a href="login.html" class="btn-login" style="width: 100%; justify-content: center; margin-top: 20px;">Solo starten</a>
       </div>
 
+      <!-- Fleet Pro Tarif -->
       <div class="pricing-card featured">
-        <div class="badge" style="margin-top:-10px;">Empfohlen</div>
-        <h3>Pro Fleet</h3>
-        <p style="color:var(--text-sub);">Für wachsende Logistikbetriebe</p>
-        <div class="price-tag">89 € <span style="font-size:16px; color:var(--text-sub);">/Monat</span></div>
-        <p style="font-size:14px; color:var(--text-sub);">Inklusive bis zu 12 Fahrer-Lizenzen & OCR-Scan</p>
+        <div class="badge" style="margin-top:-10px;">Empfohlen für Firmen</div>
+        <div>
+          <h3>Fleet Pro (Teams)</h3>
+          <p style="color:var(--text-sub);">Für wachsende Logistik- & Dienstleistungsbetriebe</p>
+          <div class="price-tag">99 € <span style="font-size:16px; color:var(--text-sub);">/Monat</span></div>
+          <p style="font-size:13px; color:var(--accent); font-weight: 700; margin-bottom: 10px;">Inklusive Chef-Dashboard & ersten 3 Fahrern</p>
+          <ul class="pricing-features">
+            <li>Volles Chef-Live-Dashboard</li>
+            <li>Fahrer anlegen & Routen live tracken</li>
+            <li>Zusätzliche Fahrer: nur +12 € / Monat</li>
+            <li>Unbegrenzte Admin-Zugänge</li>
+            <li>Prioritäts-Support & Cloud-Backup</li>
+          </ul>
+        </div>
+        <a href="login.html" class="btn-login" style="width: 100%; justify-content: center; margin-top: 20px;">Fleet Pro starten</a>
       </div>
 
-      <div class="pricing-card">
-        <h3>Enterprise</h3>
-        <p style="color:var(--text-sub);">Große Flotten & Sonderwünsche</p>
-        <div class="price-tag">Auf Anfrage</div>
-        <p style="font-size:14px; color:var(--text-sub);">Unbegrenzte Fahrer & Vor-Ort-Betreuung</p>
-      </div>
     </div>
 
   </div>
@@ -625,7 +672,8 @@
       document.getElementById('valDrivers').innerText = drivers;
       document.getElementById('valComplaints').innerText = complaints;
 
-      const savedAmount = (complaints * 25 * 12) + (drivers * 240);
+      // Realistischere Berechnung basierend auf vermiedenen Streitfällen (~1200€ pro Streitfall inkl. Anwalt/Zeit/Ersatz)
+      const savedAmount = (complaints * 1200 * 12);
       document.getElementById('resultROI').innerText = savedAmount.toLocaleString('de-DE') + ' €';
     }
 
