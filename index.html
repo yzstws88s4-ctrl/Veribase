@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Veribase – Die digitale B2B Tour- & Audit-Plattform</title>
+  <title>Veribase – Digitale Beweissicherung & Touren-Disposition</title>
 
   <!-- PWA & Favicon Settings -->
   <meta name="apple-mobile-web-app-title" content="Veribase">
@@ -27,15 +27,16 @@
     :root {
       --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       --bg: #030712;
-      --surface: rgba(17, 24, 39, 0.6);
+      --surface: rgba(17, 24, 39, 0.65);
       --surface-solid: #0f172a;
       --text: #f9fafb;
       --text-sub: #9ca3af;
       --accent: #6366f1;
-      --accent-glow: rgba(99, 102, 241, 0.35);
-      --accent-line: rgba(99, 102, 241, 0.35);
+      --accent-hover: #4f46e5;
+      --accent-glow: rgba(99, 102, 241, 0.25);
+      --accent-line: rgba(99, 102, 241, 0.4);
       --border: rgba(255, 255, 255, 0.08);
-      --shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+      --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -53,10 +54,10 @@
 
     .glow-bg-1 {
       position: absolute;
-      top: -10%;
+      top: -120px;
       left: 50%;
       transform: translateX(-50%);
-      width: 600px;
+      width: 800px;
       height: 600px;
       background: radial-gradient(circle, var(--accent-glow) 0%, rgba(3,7,18,0) 70%);
       pointer-events: none;
@@ -69,7 +70,7 @@
       z-index: 100;
       backdrop-filter: blur(16px);
       background: rgba(3, 7, 18, 0.85);
-      border-bottom: 1px solid var(--accent-line);
+      border-bottom: 1px solid var(--border);
       padding: 16px 32px;
       display: flex;
       justify-content: space-between;
@@ -85,9 +86,9 @@
     }
 
     .brand img {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
       border: 1px solid var(--accent-line);
       box-shadow: 0 4px 12px var(--accent-glow);
     }
@@ -100,7 +101,7 @@
 
     .nav-links {
       display: flex;
-      gap: 24px;
+      gap: 28px;
       align-items: center;
     }
 
@@ -118,7 +119,7 @@
       background: var(--accent);
       color: #ffffff;
       padding: 10px 22px;
-      border-radius: 12px;
+      border-radius: 10px;
       font-weight: 700;
       font-size: 14px;
       text-decoration: none;
@@ -130,8 +131,9 @@
     }
 
     .btn-login:hover {
+      background: var(--accent-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(99, 102, 241, 0.5);
+      box-shadow: 0 6px 24px rgba(99, 102, 241, 0.4);
     }
 
     .container {
@@ -144,17 +146,17 @@
 
     .hero {
       text-align: center;
-      padding: 90px 0 70px 0;
+      padding: 100px 0 70px 0;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(99, 102, 241, 0.12);
+      gap: 10px;
+      background: rgba(99, 102, 241, 0.1);
       border: 1px solid var(--accent-line);
       color: #a5b4fc;
-      padding: 8px 18px;
+      padding: 6px 16px;
       border-radius: 30px;
       font-size: 13px;
       font-weight: 700;
@@ -162,13 +164,19 @@
       margin-bottom: 28px;
     }
 
+    .badge svg {
+      width: 16px;
+      height: 16px;
+      stroke: #818cf8;
+    }
+
     .hero-title {
-      font-size: clamp(36px, 5.5vw, 64px);
+      font-size: clamp(38px, 5.5vw, 64px);
       font-weight: 800;
       letter-spacing: -0.03em;
       line-height: 1.1;
       margin: 0 0 24px 0;
-      background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+      background: linear-gradient(180deg, #ffffff 40%, #94a3b8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -176,7 +184,7 @@
     .hero-subtitle {
       font-size: 19px;
       color: var(--text-sub);
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 auto 40px auto;
       font-weight: 500;
       line-height: 1.6;
@@ -191,8 +199,8 @@
 
     .section-title {
       text-align: center;
-      margin: 80px 0 16px 0;
-      font-size: 32px;
+      margin: 90px 0 16px 0;
+      font-size: 34px;
       font-weight: 800;
       letter-spacing: -0.02em;
     }
@@ -200,9 +208,9 @@
     .section-subtitle {
       text-align: center;
       color: var(--text-sub);
-      max-width: 600px;
-      margin: 0 auto 48px auto;
-      font-size: 16px;
+      max-width: 650px;
+      margin: 0 auto 50px auto;
+      font-size: 16.5px;
     }
 
     .grid-3 {
@@ -213,8 +221,8 @@
 
     .grid-2 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 28px;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 32px;
     }
 
     .card {
@@ -224,7 +232,6 @@
       padding: 32px;
       backdrop-filter: blur(12px);
       transition: all 0.3s ease;
-      position: relative;
     }
 
     .card:hover {
@@ -234,23 +241,30 @@
     }
 
     .card-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      background: rgba(99, 102, 241, 0.15);
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(99, 102, 241, 0.12);
       border: 1px solid var(--accent-line);
-      color: #818cf8;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
       margin-bottom: 22px;
+    }
+
+    .card-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: #818cf8;
+      stroke-width: 2;
+      fill: none;
     }
 
     .card-title {
       font-size: 20px;
       font-weight: 700;
-      margin: 0 0 10px 0;
+      margin: 0 0 12px 0;
+      letter-spacing: -0.01em;
     }
 
     .card-desc {
@@ -260,29 +274,64 @@
       line-height: 1.6;
     }
 
+    /* Smart ROI Calculator */
     .calc-box {
-      background: linear-gradient(135deg, rgba(17,24,39,0.9) 0%, rgba(15,23,42,0.95) 100%);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(3, 7, 18, 0.98) 100%);
       border: 1px solid var(--accent-line);
       border-radius: 24px;
-      padding: 40px;
-      margin: 60px 0;
+      padding: 44px;
+      margin: 70px 0;
       box-shadow: var(--shadow);
+    }
+
+    .calc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .calc-toggle {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .calc-toggle-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .calc-toggle-btn.active {
+      background: var(--accent);
+      color: #fff;
     }
 
     .calc-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 48px;
       align-items: center;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 850px) {
       .calc-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
     }
 
     .slider-group {
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
 
     .slider-group label {
@@ -290,73 +339,101 @@
       justify-content: space-between;
       font-weight: 700;
       font-size: 14px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       color: var(--text);
     }
 
     input[type=range] {
       width: 100%;
+      height: 6px;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.1);
       accent-color: var(--accent);
+      cursor: pointer;
     }
 
-    .calc-result {
-      background: rgba(99, 102, 241, 0.1);
+    .calc-result-card {
+      background: rgba(99, 102, 241, 0.07);
       border: 1px solid var(--accent-line);
       border-radius: 20px;
       padding: 32px;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 14px;
+    }
+
+    .result-row:last-child { border-bottom: none; }
+
+    .result-total {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--accent-line);
       text-align: center;
     }
 
     .result-number {
-      font-size: 42px;
+      font-size: 44px;
       font-weight: 800;
       color: #818cf8;
-      margin: 10px 0;
+      letter-spacing: -0.02em;
+      margin: 8px 0;
     }
 
+    /* Pricing Section */
     .pricing-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 24px;
-      padding: 36px;
-      text-align: center;
-      position: relative;
+      padding: 40px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: all 0.3s;
     }
 
     .pricing-card.featured {
       border-color: var(--accent);
-      box-shadow: 0 0 30px var(--accent-glow);
+      box-shadow: 0 0 35px var(--accent-glow);
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
     }
 
     .price-tag {
-      font-size: 38px;
+      font-size: 44px;
       font-weight: 800;
-      margin: 20px 0 10px 0;
+      margin: 20px 0 6px 0;
+      letter-spacing: -0.02em;
     }
 
     .pricing-features {
       list-style: none;
       padding: 0;
-      margin: 24px 0;
+      margin: 28px 0;
       text-align: left;
-      font-size: 14px;
+      font-size: 14.5px;
       color: var(--text-sub);
     }
 
     .pricing-features li {
-      margin-bottom: 10px;
+      margin-bottom: 14px;
       display: flex;
-      align-items: center;
-      gap: 8px;
+      align-items: flex-start;
+      gap: 12px;
+      line-height: 1.5;
     }
 
-    .pricing-features li::before {
-      content: "✓";
-      color: var(--accent);
-      font-weight: bold;
+    .pricing-features li svg {
+      width: 18px;
+      height: 18px;
+      stroke: #818cf8;
+      stroke-width: 2.5;
+      fill: none;
+      flex-shrink: 0;
+      margin-top: 2px;
     }
 
     footer {
@@ -365,7 +442,7 @@
       text-align: center;
       color: var(--text-sub);
       font-size: 14px;
-      margin-top: 80px;
+      margin-top: 100px;
     }
 
     footer a {
@@ -381,8 +458,8 @@
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(3, 7, 18, 0.85);
-      backdrop-filter: blur(8px);
+      background: rgba(3, 7, 18, 0.88);
+      backdrop-filter: blur(10px);
       z-index: 9999;
       justify-content: center;
       align-items: center;
@@ -393,10 +470,10 @@
       background: var(--surface-solid);
       border: 1px solid var(--accent-line);
       width: 100%;
-      max-width: 650px;
+      max-width: 680px;
       max-height: 85vh;
       border-radius: 20px;
-      padding: 28px;
+      padding: 32px;
       position: relative;
       overflow-y: auto;
       text-align: left;
@@ -405,7 +482,7 @@
 
     .legal-modal-close {
       position: absolute;
-      top: 16px; right: 20px;
+      top: 20px; right: 24px;
       border: none; background: transparent;
       font-size: 26px; cursor: pointer; color: var(--text-sub);
     }
@@ -413,14 +490,14 @@
     .legal-tab-nav {
       display: flex; gap: 10px;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       padding-bottom: 12px;
       flex-wrap: wrap;
     }
 
     .legal-tab-btn {
       background: none; border: none;
-      padding: 8px 14px; cursor: pointer;
+      padding: 8px 16px; cursor: pointer;
       font-weight: 700; color: var(--text-sub);
       border-radius: 8px; font-size: 0.9rem;
       font-family: inherit;
@@ -428,13 +505,13 @@
 
     .legal-tab-btn.active {
       background: rgba(99, 102, 241, 0.25);
-      color: var(--accent);
+      color: #818cf8;
     }
 
     .legal-tab-content { display: none; }
     .legal-tab-content.active { display: block; }
     .legal-tab-content h2 { margin-top: 0; font-size: 1.3rem; }
-    .legal-tab-content h3 { font-size: 1rem; margin-top: 16px; margin-bottom: 6px; }
+    .legal-tab-content h3 { font-size: 1rem; margin-top: 18px; margin-bottom: 6px; }
     .legal-tab-content p { font-size: 0.88rem; line-height: 1.6; color: var(--text-sub); }
   </style>
 </head>
@@ -448,8 +525,8 @@
       <span class="brand-name">Veribase</span>
     </a>
     <div class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#roi">Einsparpotenzial</a>
+      <a href="#features">Technologie</a>
+      <a href="#roi">Wirtschaftlichkeit</a>
       <a href="#pricing">Tarife</a>
       <a href="login.html" class="btn-login">Anmelden &rarr;</a>
     </div>
@@ -460,125 +537,175 @@
     <!-- Hero Section -->
     <section class="hero">
       <div class="badge">
-        <span>⚡ Rechtssichere B2B-Plattform für Touren & Audits</span>
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Fälschungssichere B2B-Beweisdokumentation</span>
       </div>
-      <h1 class="hero-title">Keine Ausreden mehr bei Reklamationen</h1>
+      <h1 class="hero-title">Invertieren Sie die Beweislast bei Reklamationen.</h1>
       <p class="hero-subtitle">
-        Veribase schützt Ihren Betrieb vor unberechtigten Forderungen. Mit fälschungssicheren Fotobeweisen, GPS-Echtzeiterfassung und dem perfekten Dashboard für Fuhrparks & Einzelfahrer.
+        Veribase sichert Flotten, Entsorger und Dienstleister gegen unberechtigte Regressansprüche ab. Mit kryptografisch verifizierten GPS-Zeitstempeln, automatisierter OCR-Erfassung und lückenloser Dashboard-Überwachung.
       </p>
       <div class="hero-cta">
-        <a href="login.html" class="btn-login" style="padding: 16px 36px; font-size: 16px;">Jetzt Anmelden / Login</a>
+        <a href="login.html" class="btn-login" style="padding: 16px 36px; font-size: 16px; border-radius: 12px;">Jetzt Portal öffnen &rarr;</a>
       </div>
     </section>
 
-    <!-- Features -->
-    <h2 class="section-title" id="features">Features der Königsklasse</h2>
-    <p class="section-subtitle">Entwickelt für Logistik, Entsorgung, Lieferdienste und Außendienst.</p>
+    <!-- Features Section -->
+    <h2 class="section-title" id="features">Architektur für Ausfallsicherheit</h2>
+    <p class="section-subtitle">Entwickelt für höchste Ansprüche in Logistik, Kommunal-Entsorgung und technischem Außendienst.</p>
 
     <div class="grid-3">
+      
       <div class="card">
-        <div class="card-icon">📍</div>
-        <h3 class="card-title">GPS-Sensorik & Geofencing</h3>
-        <p class="card-desc">Keine gefälschten Stopps. Die App prüft vor Ort exakt die GPS-Koordinaten des Fahrzeugs und verifiziert den Stopp sekundengenau.</p>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3 class="card-title">Geofencing & Sensorik</h3>
+        <p class="card-desc">Keine gefälschten Stopps. Automatische Koordinatenprüfung verifiziert den Standort des Fahrzeugs metergenau am Zielort, bevor ein Status freigegeben wird.</p>
       </div>
 
       <div class="card">
-        <div class="card-icon">📸</div>
-        <h3 class="card-title">Stempel-Fotobeweise</h3>
-        <p class="card-desc">Beweisfotos werden unmanipulierbar mit Uhrzeit, Fahrername und GPS-Wasserzeichen versehen und in der Supabase-Cloud gesichert.</p>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </div>
+        <h3 class="card-title">Wasserzeichen-Fotobeweise</h3>
+        <p class="card-desc">Bilder werden direkt mit eingebrannter Uhrzeit, Exakt-GPS und Fahrerkennung stempelt. Gesichert in hochverfügbarer Cloud-Infrastruktur.</p>
       </div>
 
       <div class="card">
-        <div class="card-icon">🤖</div>
-        <h3 class="card-title">OCR Smart-Scan</h3>
-        <p class="card-desc">Laden Sie gedruckte Tourlisten einfach per Fotokamera hoch. Die KI liest Adressen und Kunden automatisch aus und erstellt die Route.</p>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+        </div>
+        <h3 class="card-title">KI-gestützter OCR-Scan</h3>
+        <p class="card-desc">Analoge Tourenlisten einfach abfotografieren. Die integrierte OCR-Erhebung wandelt gedruckte Adressfelder in Sekundenschnelle in digitale Stops um.</p>
       </div>
 
       <div class="card">
-        <div class="card-icon">📊</div>
-        <h3 class="card-title">Chef-Live-Dashboard</h3>
-        <p class="card-desc">Volle Transparenz im Büro. Verfolgen Sie den Tourenfortschritt aller Fahrer live, planen Sie Routen und exportieren Sie Nachweise.</p>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        </div>
+        <h3 class="card-title">Dispo-Live-Zentrale</h3>
+        <p class="card-desc">Echtzeit-Überblick für den Fuhrparkleiter. Verfolgen Sie Tourenfortschritte live auf der Karte und greifen Sie bei Kundenrückfragen sofort auf Nachweise zu.</p>
       </div>
 
       <div class="card">
-        <div class="card-icon">📄</div>
-        <h3 class="card-title">Rechtssicherer PDF-Export</h3>
-        <p class="card-desc">Erstellen Sie auf Knopfdruck vollständige Leistungsnachweise mit Firmen-Branding für Auftraggeber oder Versicherungen.</p>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3 class="card-title">Auditfester PDF-Export</h3>
+        <p class="card-desc">Generieren Sie auf Knopfdruck fälschungssichere Leistungsnachweise im Firmendesign zur direkten Vorlage bei Auftraggebern, Gerichten oder Versicherungen.</p>
       </div>
 
       <div class="card">
-        <div class="card-icon">📱</div>
-        <h3 class="card-title">PWA – Keine App-Installationspflicht</h3>
-        <p class="card-desc">Funktioniert direkt im Browser auf jedem Smartphone (Android & iOS). Keine zeitraubenden Updates über App Stores nötig.</p>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <h3 class="card-title">PWA-Technologie</h3>
+        <p class="card-desc">Null Installationsaufwand. Läuft als hochperformante Progressive Web App browserübergreifend auf allen Mobilgeräten (Android & iOS).</p>
       </div>
+
     </div>
 
-    <!-- Interactive ROI Calculator -->
+    <!-- Interactive Visual ROI Calculator -->
     <div class="calc-box" id="roi">
+      <div class="calc-header">
+        <div>
+          <h2 style="margin:0; font-size: 26px; font-weight:800;">Wirtschaftlichkeits-Rechner</h2>
+          <p style="color: var(--text-sub); margin: 4px 0 0 0; font-size: 14.5px;">Visualisieren Sie Ihr konkretes Verlustpotenzial durch ungeklärte Reklamationen.</p>
+        </div>
+        <div class="calc-toggle">
+          <button id="btnPeriodMonth" class="calc-toggle-btn active" onclick="setPeriod('month')">Monatlich</button>
+          <button id="btnPeriodYear" class="calc-toggle-btn" onclick="setPeriod('year')">Jährlich</button>
+        </div>
+      </div>
+
       <div class="calc-grid">
         <div>
-          <h2 style="margin-top:0; font-size: 28px;">Sparen Sie Zeit & Streitkosten</h2>
-          <p style="color: var(--text-sub);">Berechnen Sie Ihr jährliches Einsparpotenzial durch rechtssichere Beweise gegen unberechtigte Reklamationen.</p>
-          
           <div class="slider-group">
-            <label>Anzahl Fahrzeuge / Fahrer: <span id="valDrivers">5</span></label>
-            <input type="range" id="inputDrivers" min="1" max="50" value="5" oninput="updateROI()">
+            <label><span>Fahrzeuge / operative Einheiten:</span> <span id="valDrivers" style="color:#818cf8;">8</span></label>
+            <input type="range" id="inputDrivers" min="1" max="50" value="8" oninput="calculateROI()">
           </div>
 
           <div class="slider-group">
-            <label>Streitfälle / Reklamationen pro Monat: <span id="valComplaints">4</span></label>
-            <input type="range" id="inputComplaints" min="1" max="20" value="4" oninput="updateROI()">
+            <label><span>Unberechtigte Reklamationen / Streitfälle:</span> <span id="valIncidents" style="color:#818cf8;">3</span></label>
+            <input type="range" id="inputIncidents" min="1" max="25" value="3" oninput="calculateROI()">
+          </div>
+
+          <div style="font-size: 13px; color: var(--text-sub); line-height:1.5;">
+            *Basiert auf durchschnittlichen Kosten pro Klärungsfall (Verwaltungsaufwand, Kundenverlust, Anwalts- & Einbehaltsrisiko ca. 950 €/Vorfall).
           </div>
         </div>
 
-        <div class="calc-result">
-          <div style="font-size:14px; font-weight:700; color:var(--text-sub); text-transform:uppercase;">Geschätzte Ersparnis pro Jahr</div>
-          <div class="result-number" id="resultROI">4.800 €</div>
-          <div style="font-size:13px; color:var(--text-sub);">Durch abgewendete Streitfälle, Anwaltskosten & Suchzeiten.</div>
+        <div class="calc-result-card">
+          <div class="result-row">
+            <span style="color:var(--text-sub);">Potenzieller Reklamationsschaden:</span>
+            <span id="resLoss" style="color:#f87171; font-weight:700;">2.850 €</span>
+          </div>
+          <div class="result-row">
+            <span style="color:var(--text-sub);">Geschätzter Aufwand Zettelwirtschaft:</span>
+            <span id="resAdmin" style="color:#fbbf24; font-weight:700;">640 €</span>
+          </div>
+          <div class="result-row">
+            <span style="color:var(--text-sub);">Veribase Software-Investment:</span>
+            <span id="resCost" style="color:#a5b4fc; font-weight:700;">- 159 €</span>
+          </div>
+
+          <div class="result-total">
+            <div style="font-size:12px; font-weight:800; color:var(--text-sub); letter-spacing:0.05em; text-transform:uppercase;">Geschützer Ertrag / Reingewinn</div>
+            <div class="result-number" id="resProfit">3.331 €</div>
+            <div style="font-size:12.5px; color:var(--text-sub);">Wirtschaftlicher Vorteil für Ihr Unternehmen</div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Pricing Section -->
-    <h2 class="section-title" id="pricing">Transparente B2B-Tarife</h2>
-    <p class="section-subtitle">Ob Einzelfahrer oder große Flotte – volle Kontrolle ohne versteckte Kosten.</p>
+    <h2 class="section-title" id="pricing">Kalkulierbare B2B-Konditionen</h2>
+    <p class="section-subtitle">Volle Kostenkontrolle ohne Mindestvertragslaufzeiten.</p>
 
-    <div class="grid-2" style="max-width: 800px; margin: 0 auto 60px auto;">
+    <div class="grid-2" style="max-width: 860px; margin: 0 auto 60px auto;">
       
       <!-- Solo Tarif -->
       <div class="pricing-card">
         <div>
-          <h3>Solo-Tarif</h3>
-          <p style="color:var(--text-sub);">Für 1-Mann-Betriebe & Einzelfahrer</p>
-          <div class="price-tag">29 € <span style="font-size:16px; color:var(--text-sub);">/Monat</span></div>
+          <div style="font-size:12px; font-weight:800; color:#818cf8; text-transform:uppercase; letter-spacing:0.05em;">Für Selbstständige</div>
+          <h3 style="font-size: 24px; margin: 6px 0;">Solo-Pro</h3>
+          <p style="color:var(--text-sub); font-size: 14px; margin: 0;">Für Einzelfahrer & Subunternehmer, die selbst fahren</p>
+          
+          <div class="price-tag">29 € <span style="font-size:16px; color:var(--text-sub); font-weight: 500;">/Monat netto</span></div>
+          
           <ul class="pricing-features">
-            <li>Touren-App für das Smartphone</li>
-            <li>Fälschungssichere Fotobeweise (GPS & Zeit)</li>
-            <li>OCR Smart-Scan für Tourlisten</li>
-            <li>Abgespecktes Dashboard (Eigene Daten)</li>
-            <li>Rechtssicherer PDF-Export</li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span><strong>Touren-App</strong> für Smartphone & Tablet</span></li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span><strong>Fälschungssichere Fotobeweise</strong> mit GPS & Zeit</span></li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span><strong>KI-OCR Smart-Scan</strong> für Papier-Listen</span></li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span><strong>Fokussiertes Dashboard</strong> für eigene Nachweise</span></li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span>Unbegrenzter PDF-Leistungsnachweis-Export</span></li>
           </ul>
         </div>
-        <a href="login.html" class="btn-login" style="width: 100%; justify-content: center; margin-top: 20px;">Solo starten</a>
+        <a href="login.html" class="btn-login" style="width: 100%; justify-content: center; padding: 14px;">Solo-Zugang Freischalten</a>
       </div>
 
       <!-- Fleet Pro Tarif -->
       <div class="pricing-card featured">
-        <div class="badge" style="margin-top:-10px;">Empfohlen für Firmen</div>
         <div>
-          <h3>Fleet Pro (Teams)</h3>
-          <p style="color:var(--text-sub);">Für wachsende Logistik- & Dienstleistungsbetriebe</p>
-          <div class="price-tag">99 € <span style="font-size:16px; color:var(--text-sub);">/Monat</span></div>
-          <p style="font-size:13px; color:var(--accent); font-weight: 700; margin-bottom: 10px;">Inklusive Chef-Dashboard & ersten 3 Fahrern</p>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:12px; font-weight:800; color:#a5b4fc; text-transform:uppercase; letter-spacing:0.05em;">Empfohlen für Flotten</span>
+            <span class="badge" style="margin:0; padding:4px 10px; font-size:11px;">Vollversion</span>
+          </div>
+          <h3 style="font-size: 24px; margin: 6px 0;">Fleet Pro</h3>
+          <p style="color:var(--text-sub); font-size: 14px; margin: 0;">Für Unternehmen mit Fahrern & Dispo-Zentrale</p>
+          
+          <div class="price-tag">99 € <span style="font-size:16px; color:var(--text-sub); font-weight: 500;">/Monat netto</span></div>
+          <div style="font-size:13px; color:#818cf8; font-weight:700; margin-bottom: 10px;">Inkl. Dispo-Dashboard + ersten 3 Fahrern</div>
+
           <ul class="pricing-features">
-            <li>Volles Chef-Live-Dashboard</li>
-            <li>Fahrer anlegen & Routen live tracken</li>
-            <li>Zusätzliche Fahrer: nur +12 € / Monat</li>
-            <li>Unbegrenzte Admin-Zugänge</li>
-            <li>Prioritäts-Support & Cloud-Backup</li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span><strong>Zentrales Dispo-Dashboard</strong> mit Live-Tracking</span></li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span><strong>Fahrer-Verwaltung</strong> & direkte Tourenzuweisung</span></li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span>Zusätzliche Fahrer-Lizenzen: <strong>nur +12 €/Monat</strong></span></li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span>Echtzeit-Gegenbeweis im Kundenstreitfall</span></li>
+            <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span>Priorisierter B2B-Support & AVV-Vertrag inkl.</span></li>
           </ul>
         </div>
-        <a href="login.html" class="btn-login" style="width: 100%; justify-content: center; margin-top: 20px;">Fleet Pro starten</a>
+        <a href="login.html" class="btn-login" style="width: 100%; justify-content: center; padding: 14px; background:#6366f1;">Fleet Pro Einrichten</a>
       </div>
 
     </div>
@@ -648,7 +775,7 @@
         <h3>§ 4 Pflichten des Kunden & Datenschutz (AVV)</h3>
         <p>1. Der Kunde ist verpflichtet, Zugangsdaten geheim zu halten und vor unbefugtem Zugriff zu schützen.</p>
         <p>2. Der Kunde stellt eigenverantwortlich sicher, dass seine Mitarbeiter/Fahrer über die Erfassung von GPS-Daten und Foto-Uploads im Rahmen der App-Nutzung datenschutzkonform informiert wurden.</p>
-        <p>3. Soweit der Anbieter im Rahmen der Leistungserbringung personenbezogene Daten im Auftrag verarbeitet, gilt die Vereinbarung zur Auftragsverarbeitung (AVV) gemäß Art. 28 DSGVO, abrufbar unter <a href="avv.pdf" target="_blank" style="color: var(--accent);">veribase-app.de/avv.pdf</a>.</p>
+        <p>3. Soweit der Anbieter im Rahmen der Leistungserbringung personenbezogene Daten im Auftrag verarbeitet, gilt die Vereinbarung zur Auftragsverarbeitung (AVV) gemäß Art. 28 DSGVO, abrufbar unter veribase-app.de/avv.pdf.</p>
 
         <h3>§ 5 Verfügbarkeit & Haftung</h3>
         <p>1. Der Anbieter strebt eine jährliche Durchschnittsverfügbarkeit der SaaS-Dienste von 98 % an (ausgenommen Wartungsarbeiten).</p>
@@ -665,18 +792,44 @@
   </div>
 
   <script>
-    function updateROI() {
-      const drivers = parseInt(document.getElementById('inputDrivers').value);
-      const complaints = parseInt(document.getElementById('inputComplaints').value);
+    let currentPeriod = 'month';
 
-      document.getElementById('valDrivers').innerText = drivers;
-      document.getElementById('valComplaints').innerText = complaints;
-
-      // Realistischere Berechnung basierend auf vermiedenen Streitfällen (~1200€ pro Streitfall inkl. Anwalt/Zeit/Ersatz)
-      const savedAmount = (complaints * 1200 * 12);
-      document.getElementById('resultROI').innerText = savedAmount.toLocaleString('de-DE') + ' €';
+    function setPeriod(period) {
+      currentPeriod = period;
+      document.getElementById('btnPeriodMonth').classList.toggle('active', period === 'month');
+      document.getElementById('btnPeriodYear').classList.toggle('active', period === 'year');
+      calculateROI();
     }
 
+    function calculateROI() {
+      const drivers = parseInt(document.getElementById('inputDrivers').value);
+      const incidents = parseInt(document.getElementById('inputIncidents').value);
+
+      document.getElementById('valDrivers').innerText = drivers;
+      document.getElementById('valIncidents').innerText = incidents;
+
+      // Berechnungswerte
+      const multiplier = currentPeriod === 'year' ? 12 : 1;
+      
+      const lossPerIncident = 950; // Schaden pro Streitfall
+      const adminCostPerDriver = 80; // Verwaltungsaufwand/Verlust pro Fahrer
+
+      const totalLoss = incidents * lossPerIncident * multiplier;
+      const totalAdmin = drivers * adminCostPerDriver * multiplier;
+      
+      // Veribase Preis (Fleet Pro 99 + zusätzliche Fahrer à 12 €)
+      const extraDrivers = Math.max(0, drivers - 3);
+      const softwareCost = (99 + (extraDrivers * 12)) * multiplier;
+
+      const netProfit = (totalLoss + totalAdmin) - softwareCost;
+
+      document.getElementById('resLoss').innerText = totalLoss.toLocaleString('de-DE') + ' €';
+      document.getElementById('resAdmin').innerText = totalAdmin.toLocaleString('de-DE') + ' €';
+      document.getElementById('resCost').innerText = '- ' + softwareCost.toLocaleString('de-DE') + ' €';
+      document.getElementById('resProfit').innerText = netProfit.toLocaleString('de-DE') + ' €';
+    }
+
+    // Modal Handlers
     function openLegalModal(tab) {
       document.getElementById('legalModal').style.display = 'flex';
       switchLegalTab(tab);
@@ -707,6 +860,9 @@
         document.getElementById('tabBtnAgb').classList.add('active');
       }
     }
+
+    // Init initial calculation
+    calculateROI();
   </script>
 </body>
 </html>
