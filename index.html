@@ -357,12 +357,12 @@
       padding: 0;
     }
 
-    /* ROI Rechner */
+    /* ROI Rechner Style Optimization */
     .calc-box {
       background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(3, 7, 18, 0.98) 100%);
       border: 1px solid var(--accent-line);
       border-radius: 20px;
-      padding: 28px;
+      padding: 32px;
       margin: 50px 0;
       box-shadow: var(--shadow);
     }
@@ -371,7 +371,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
       flex-wrap: wrap;
       gap: 12px;
     }
@@ -379,8 +379,8 @@
     .calc-toggle {
       display: inline-flex;
       background: rgba(255, 255, 255, 0.05);
-      padding: 3px;
-      border-radius: 8px;
+      padding: 4px;
+      border-radius: 10px;
       border: 1px solid var(--border);
     }
 
@@ -388,39 +388,41 @@
       background: transparent;
       border: none;
       color: var(--text-sub);
-      padding: 6px 14px;
-      font-size: 12.5px;
+      padding: 7px 16px;
+      font-size: 13px;
       font-weight: 700;
-      border-radius: 6px;
+      border-radius: 7px;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
 
     .calc-toggle-btn.active {
       background: var(--accent);
       color: #fff;
+      box-shadow: 0 2px 10px var(--accent-glow);
     }
 
     .calc-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      align-items: center;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 32px;
+      align-items: start;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 840px) {
       .calc-grid, .comparison-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
       header { padding: 12px 16px; }
       .calc-box { padding: 20px; }
     }
 
-    .slider-group { margin-bottom: 22px; }
+    .slider-group { margin-bottom: 24px; }
 
     .slider-group label {
       display: flex;
       justify-content: space-between;
       font-weight: 700;
-      font-size: 13.5px;
+      font-size: 14px;
       margin-bottom: 10px;
     }
 
@@ -430,10 +432,22 @@
       border-radius: 5px;
       background: rgba(255,255,255,0.1);
       accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .calc-info-banner {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-top: 20px;
     }
 
     .calc-result-card {
-      background: rgba(99, 102, 241, 0.07);
+      background: rgba(99, 102, 241, 0.06);
       border: 1px solid var(--accent-line);
       border-radius: 16px;
       padding: 24px;
@@ -442,7 +456,7 @@
     .result-row {
       display: flex;
       justify-content: space-between;
-      padding: 10px 0;
+      padding: 11px 0;
       border-bottom: 1px solid rgba(255,255,255,0.06);
       font-size: 13.5px;
     }
@@ -450,17 +464,17 @@
     .result-row:last-child { border-bottom: none; }
 
     .result-total {
-      margin-top: 14px;
-      padding-top: 14px;
+      margin-top: 16px;
+      padding-top: 16px;
       border-top: 1px solid var(--accent-line);
       text-align: center;
     }
 
     .result-number {
-      font-size: clamp(32px, 6vw, 42px);
+      font-size: clamp(34px, 5vw, 44px);
       font-weight: 800;
       color: #818cf8;
-      margin: 6px 0;
+      margin: 4px 0;
     }
 
     /* Pricing Section */
@@ -763,12 +777,12 @@
       </div>
     </div>
 
-    <!-- Interactive Visual ROI Calculator -->
+    <!-- Interactive Visual ROI Calculator (Konservativ & Seriös aufgestellt) -->
     <div class="calc-box" id="roi">
       <div class="calc-header">
         <div>
           <h2 style="margin:0; font-size: 24px; font-weight:800;">Wirtschaftlichkeits-Rechner</h2>
-          <p style="color: var(--text-sub); margin: 4px 0 0 0; font-size: 14px;">Berechnen Sie Ihr konkretes Einsparpotenzial.</p>
+          <p style="color: var(--text-sub); margin: 4px 0 0 0; font-size: 14px;">Ermitteln Sie Ihren kalkulatorischen Schutz durch Veribase.</p>
         </div>
         <div class="calc-toggle">
           <button id="btnPeriodMonth" class="calc-toggle-btn active" onclick="setPeriod('month')">Monatlich</button>
@@ -779,28 +793,29 @@
       <div class="calc-grid">
         <div>
           <div class="slider-group">
-            <label><span>Fahrzeuge / Einheiten:</span> <span id="valDrivers" style="color:#818cf8;">8</span></label>
+            <label><span>Aktive Fahrzeuge / Einheiten:</span> <span id="valDrivers" style="color:#818cf8;">8</span></label>
             <input type="range" id="inputDrivers" min="1" max="50" value="8" oninput="calculateROI()">
           </div>
 
           <div class="slider-group">
-            <label><span>Streitfälle / Reklamationen:</span> <span id="valIncidents" style="color:#818cf8;">3</span></label>
+            <label><span>Unberechtigte Reklamationen / Stopps (pro Monat):</span> <span id="valIncidents" style="color:#818cf8;">3</span></label>
             <input type="range" id="inputIncidents" min="1" max="25" value="3" oninput="calculateROI()">
           </div>
 
-          <div style="font-size: 12px; color: var(--text-sub); line-height:1.5;">
-            *Basiert auf durchschnittlichen Kosten pro Klärungsfall (Verwaltungsaufwand, Anwalts- & Einbehaltsrisiko ca. 950 €/Vorfall).
+          <div class="calc-info-banner">
+            <strong>Konservative Berechnungsgrundlage:</strong><br>
+            Der Rechner geht bewusst vom minimalsten Best-Case aus (durchschnittlich 350 € Rechnungskürzung & 100 € interner Dispo-Aufwand pro Streitfall). Gerichts- & Anwaltskosten sind hierbei noch gar nicht eingerechnet.
           </div>
         </div>
 
         <div class="calc-result-card">
           <div class="result-row">
-            <span style="color:var(--text-sub);">Potenzieller Schaden:</span>
-            <span id="resLoss" style="color:#f87171; font-weight:700;">2.850 €</span>
+            <span style="color:var(--text-sub);">Abgewendete Rechnungsabzüge:</span>
+            <span id="resLoss" style="color:#f87171; font-weight:700;">1.050 €</span>
           </div>
           <div class="result-row">
-            <span style="color:var(--text-sub);">Verwaltungsaufwand:</span>
-            <span id="resAdmin" style="color:#fbbf24; font-weight:700;">640 €</span>
+            <span style="color:var(--text-sub);">Eingesparter Dispo-Aufwand:</span>
+            <span id="resAdmin" style="color:#fbbf24; font-weight:700;">300 €</span>
           </div>
           <div class="result-row">
             <span style="color:var(--text-sub);">Veribase Investment:</span>
@@ -808,9 +823,9 @@
           </div>
 
           <div class="result-total">
-            <div style="font-size:11px; font-weight:800; color:var(--text-sub); letter-spacing:0.05em; text-transform:uppercase;">Geschützter Reingewinn</div>
-            <div class="result-number" id="resProfit">3.331 €</div>
-            <div style="font-size:12px; color:var(--text-sub);">Wirtschaftlicher Vorteil für Ihren Betrieb</div>
+            <div style="font-size:11px; font-weight:800; color:var(--text-sub); letter-spacing:0.05em; text-transform:uppercase;">Geschützter Reingewinn (Nettovorteil)</div>
+            <div class="result-number" id="resProfit">1.191 €</div>
+            <div style="font-size:12px; color:var(--text-sub);">Mindest-Einsparung für Ihren Betrieb</div>
           </div>
         </div>
       </div>
@@ -968,12 +983,14 @@
 
       const multiplier = currentPeriod === 'year' ? 12 : 1;
       
-      const lossPerIncident = 950;
-      const adminCostPerDriver = 80;
+      // Realistische, sehr konservative B2B-Annahmen
+      const lossPerIncident = 350; // Konservativer Schnitt pro abgewendeter Rechnungskürzung
+      const adminCostPerIncident = 100; // Konservative Dispo-Arbeitszeit (z. B. 2,5 Std. à 40 €)
 
       const totalLoss = incidents * lossPerIncident * multiplier;
-      const totalAdmin = drivers * adminCostPerDriver * multiplier;
+      const totalAdmin = incidents * adminCostPerIncident * multiplier;
       
+      // Veribase-Kosten (Fleet Pro Base 99 € inkl. 3 Fahrern, danach 12 €/Fahrer)
       const extraDrivers = Math.max(0, drivers - 3);
       const softwareCost = (99 + (extraDrivers * 12)) * multiplier;
 
