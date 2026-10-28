@@ -129,6 +129,11 @@ body {
 .theme-toggle-btn { width: 38px; padding: 0; }
 .theme-toggle-btn svg { width: 16px; height: 16px; fill: currentColor; }
 
+/* Cleaner Logout-Icon-Button */
+.logout-btn { width: 38px; padding: 0; color: var(--text-sub); }
+.logout-btn:hover { color: var(--danger); border-color: rgba(239, 68, 68, 0.4); }
+.logout-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
 .app-view-container {
   display: flex;
   flex-direction: column;
@@ -184,15 +189,27 @@ button:disabled { opacity: 0.3; cursor: not-allowed; }
   box-shadow: 0 4px 16px var(--accent-glow);
 }
 
-.btn-danger {
-  background: var(--danger-bg);
+/* Neuer dezent-kleiner Abbruch-Button */
+.btn-danger-subtle {
+  background: transparent;
+  color: var(--text-sub);
+  border: 1px dashed var(--border);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 8px;
+  margin-top: 6px;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.btn-danger-subtle:hover {
   color: var(--danger);
-  border-color: rgba(239, 68, 68, 0.3);
+  border-color: rgba(239, 68, 68, 0.4);
+  background: var(--danger-bg);
 }
 
 .btn-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
 
-/* "JETZT NAVIGIEREN" Button wieder im kräftigen Lila/Blau-Look */
+/* "JETZT NAVIGIEREN" Button vollflächig Lila */
 .btn-navigate {
   min-height: 64px;
   font-size: 17px;
@@ -211,7 +228,7 @@ html[data-theme="dark"] .btn-navigate {
   border: none !important;
 }
 
-/* "Stopp erledigt" Button jetzt weiß mit lila Rand */
+/* "Stopp erledigt" Button weiß mit lila Rand */
 .btn-complete-action {
   min-height: 52px;
   font-size: 14px;
@@ -419,7 +436,10 @@ input:checked + .slider:before { transform: translateX(18px); }
       <button class="utility-btn theme-toggle-btn" onclick="toggleTheme()" aria-label="Design umschalten">
         <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
       </button>
-      <button class="utility-btn" onclick="logout()" style="color: var(--danger); border-color: rgba(239,68,68,0.2);">Abmelden</button>
+      <!-- Cleaner Icon-Logout-Button -->
+      <button class="utility-btn logout-btn" onclick="logout()" aria-label="Abmelden" title="Abmelden">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+      </button>
     </div>
   </div>
 
@@ -517,7 +537,8 @@ input:checked + .slider:before { transform: translateX(18px); }
       <button class="btn-success" style="padding: 12px; margin-bottom: 6px;" id="finishTourBtn" onclick="finishAndSaveTour()">
         Tour beenden & Speichern
       </button>
-      <button class="btn-danger" onclick="openCancelModal()" style="padding: 10px;">
+      <!-- Neuer, dezenter und kleinerer Abbruch-Button -->
+      <button class="btn-danger-subtle" onclick="openCancelModal()">
         Tour abbrechen (Notfall)
       </button>
     </div>
@@ -545,7 +566,7 @@ input:checked + .slider:before { transform: translateX(18px); }
     <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;">Bitte gib den Grund für den Abbruch ein:</div>
     <input type="text" id="cancelReasonInput" placeholder="Grund hier eingeben..." style="margin-bottom: 16px;">
     <div style="display: flex; gap: 8px;">
-      <button class="btn-danger" style="margin-bottom:0; padding: 12px;" onclick="confirmCancelTour()">Abbruch bestätigen</button>
+      <button class="btn-success" style="margin-bottom:0; padding: 12px; background: var(--danger);" onclick="confirmCancelTour()">Abbruch bestätigen</button>
       <button style="margin-bottom:0; padding: 12px;" onclick="closeCancelModal()">Zurück</button>
     </div>
   </div>
@@ -575,7 +596,7 @@ input:checked + .slider:before { transform: translateX(18px); }
     <h3 id="detailTourTitle" style="margin-top:0; margin-bottom: 8px; font-size: 15px;">Tour Details</h3>
     <div id="detailStopsContainer" style="overflow-y: auto; flex-grow: 1; margin-bottom: 12px; padding-right: 4px;"></div>
     <div style="display: flex; gap: 8px; border-top: 1px solid var(--accent-line); padding-top: 10px;">
-      <button class="btn-danger" style="margin-bottom:0; padding: 11px;" onclick="archiveCurrentDetailTour()">Ausblenden</button>
+      <button class="btn-danger" style="margin-bottom:0; padding: 11px; background: var(--danger); color: white;" onclick="archiveCurrentDetailTour()">Ausblenden</button>
       <button style="margin-bottom:0; padding: 11px;" onclick="closeDetailModal()">Zurück</button>
     </div>
   </div>
