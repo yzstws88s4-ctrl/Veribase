@@ -813,7 +813,7 @@
       </div>
     </div>
 
-    <!-- Interactive Visual ROI Calculator (Mit Checkbox & dynamischem Gerichts-Szenario) -->
+    <!-- Interactive Visual ROI Calculator (Mit dynamischem 10:1 Gerichts-Schlüssel) -->
     <div class="calc-box" id="roi">
       <div class="calc-header">
         <div>
@@ -824,7 +824,7 @@
         <div class="calc-controls">
           <label class="legal-checkbox-label">
             <input type="checkbox" id="chkLegal" onchange="calculateROI()">
-            <span>Inkl. Gerichtskosten</span>
+            <span>Inkl. Gerichts-Eskalation</span>
           </label>
 
           <div class="calc-toggle">
@@ -842,24 +842,24 @@
           </div>
 
           <div class="slider-group">
-            <label><span>Unberechtigte Reklamationen / Stopps (pro Monat):</span> <span id="valIncidents" style="color:#818cf8;">5</span></label>
-            <input type="range" id="inputIncidents" min="1" max="100" value="5" oninput="calculateROI()">
+            <label><span>Unberechtigte Reklamationen / Stopps (pro Monat):</span> <span id="valIncidents" style="color:#818cf8;">15</span></label>
+            <input type="range" id="inputIncidents" min="1" max="100" value="15" oninput="calculateROI()">
           </div>
 
           <div class="calc-info-banner" id="calcInfoBanner">
             <strong style="color:var(--text);">Konservativer Mindestwert:</strong><br>
-            Dieser Rechner definiert das Unterlimit Ihres Einsparpotenzials. Die Formel berücksichtigt lediglich geringfügige Standardabzüge (350 €/Vorfall) sowie minimalen internen Klärungsaufwand (100 €/Vorfall). Rechtsschutz-, Anwalts- oder Gerichtsverfahren sind ausdrücklich <strong>nicht</strong> eingerechnet. Ihre tatsächliche Ersparnis im Betriebsalltag liegt in der Regel deutlich darüber.
+            Dieser Rechner kalkuliert mit alltäglichen Standard-Rechnungskürzungen (350 €) und manuellem Dispo-Aufwand (100 €) pro Vorfall. Juristische Streitkosten sind hier noch nicht eingerechnet.
           </div>
         </div>
 
         <div class="calc-result-card">
           <div class="result-row">
             <span id="lblLossTitle" style="color:var(--text-sub);">Abgewendete Rechnungsabzüge:</span>
-            <span id="resLoss" style="color:#f87171; font-weight:700;">1.750 €</span>
+            <span id="resLoss" style="color:#f87171; font-weight:700;">5.250 €</span>
           </div>
           <div class="result-row">
             <span style="color:var(--text-sub);">Eingesparter Dispo-Aufwand:</span>
-            <span id="resAdmin" style="color:#fbbf24; font-weight:700;">500 €</span>
+            <span id="resAdmin" style="color:#fbbf24; font-weight:700;">1.500 €</span>
           </div>
           <div class="result-row">
             <span style="color:var(--text-sub);">Veribase Investment:</span>
@@ -868,7 +868,7 @@
 
           <div class="result-total">
             <div style="font-size:11px; font-weight:800; color:var(--text-sub); letter-spacing:0.05em; text-transform:uppercase;">Geschützter Reingewinn (Nettovorteil)</div>
-            <div class="result-number" id="resProfit">2.067 €</div>
+            <div class="result-number" id="resProfit">6.567 €</div>
             <div style="font-size:12px; color:var(--text-sub);" id="lblProfitSubtitle">Mindest-Einsparung für Ihren Betrieb</div>
           </div>
         </div>
@@ -1028,16 +1028,21 @@
 
       const multiplier = currentPeriod === 'year' ? 12 : 1;
       
-      // Basis-Werte: 350 € Rechnungskürzung, 100 € Dispo-Aufwand
-      // Gerichts-Option: zusätzlich +850 € pro Fall (sehr realistischer B2B-Ernstfall mit Anwalt & Gerichtskosten)
+      // Standard-Alltagsschaden pro Vorfall (Rechnungskürzung + interner Aufwand)
       const baseLossPerIncident = 350;
-      const legalCostPerIncident = includeLegal ? 850 : 0;
-      const lossPerIncident = baseLossPerIncident + legalCostPerIncident;
-      
       const adminCostPerIncident = 100;
 
-      const totalLoss = incidents * lossPerIncident * multiplier;
+      let totalLoss = incidents * baseLossPerIncident * multiplier;
       const totalAdmin = incidents * adminCostPerIncident * multiplier;
+
+      // DYNAMISCHES GERICHTS-MODELL:
+      // Wir rechnen damit, dass auf JEDE 10 Reklamationen genau 1 Vorfall juristisch eskaliert (Eskalationsquote 10%).
+      // Mindestkosten pro Gerichts-Eskalation (Anwalt, Gutachter, Court-Fees) = 1.500 €
+      const legalCases = Math.floor(incidents / 10) + (incidents % 10 >= 5 ? 1 : 0); // Rundet realistisch ab 5 Stopps auf 1 Fall auf
+      const legalCostPerCase = 1500;
+      const totalLegalCosts = includeLegal ? (legalCases * legalCostPerCase * multiplier) : 0;
+
+      totalLoss += totalLegalCosts;
       
       // Veribase Software-Kosten
       let softwareCostMonthly = 99;
@@ -1051,24 +1056,25 @@
       const softwareCost = softwareCostMonthly * multiplier;
       const netProfit = (totalLoss + totalAdmin) - softwareCost;
 
-      // Dynamische Text- & Beschriftungsanpassung je nach Checkbox
+      // Dynamische Textanpassung
       const infoBanner = document.getElementById('calcInfoBanner');
       const lblLossTitle = document.getElementById('lblLossTitle');
       const lblProfitSubtitle = document.getElementById('lblProfitSubtitle');
 
       if (includeLegal) {
-        lblLossTitle.innerText = "Abgew. Rechnungs- & Gerichtsschäden:";
-        lblProfitSubtitle.innerText = "Kalkulierter Schutz bei juristischer Eskalation";
+        const casesText = legalCases === 1 ? '1 juristischer Streitfall' : `${legalCases} juristische Streitfälle`;
+        lblLossTitle.innerText = "Abgewendete Schäden inkl. Gericht:";
+        lblProfitSubtitle.innerText = "Inkl. Schutz vor Rechts- & Anwaltskosten";
         infoBanner.innerHTML = `
-          <strong style="color:var(--text);">Szenario inkl. juristischer Eskalation:</strong><br>
-          In dieser Kalkulation ist ein realistischer Mindestsatz für Anwalts-, Gutachter- und Gerichtsnebenkosten (+850 € pro Streitfall) enthalten. Fälschungssichere GPS-Wasserzeichen stoppen solche Verfahren oft vor dem ersten Kläger-Schriftsatz.
+          <strong style="color:var(--text);">Szenario mit Gerichts-Eskalation (Quote 10:1):</strong><br>
+          Statistisch eskaliert ca. jeder 10. Reklamationsfall vor Gericht. Bei <strong>${incidents} Reklamationen/Monat</strong> kalkuliert dieses Modell mit <strong>${casesText}</strong> pro Monat (Mindest-Prozessschaden: 1.500 €/Fall). Veribase storniert diese Streitfälle vor dem ersten Kläger-Schriftsatz.
         `;
       } else {
         lblLossTitle.innerText = "Abgewendete Rechnungsabzüge:";
         lblProfitSubtitle.innerText = "Mindest-Einsparung für Ihren Betrieb";
         infoBanner.innerHTML = `
           <strong style="color:var(--text);">Konservativer Mindestwert:</strong><br>
-          Dieser Rechner definiert das Unterlimit Ihres Einsparpotenzials. Die Formel berücksichtigt lediglich geringfügige Standardabzüge (350 €/Vorfall) sowie minimalen internen Klärungsaufwand (100 €/Vorfall). Rechtsschutz-, Anwalts- oder Gerichtsverfahren sind ausdrücklich <strong>nicht</strong> eingerechnet. Ihre tatsächliche Ersparnis im Betriebsalltag liegt in der Regel deutlich darüber.
+          Dieser Rechner kalkuliert mit alltäglichen Standard-Rechnungskürzungen (350 €) und manuellem Dispo-Aufwand (100 €) pro Vorfall. Juristische Streitkosten sind hier noch nicht eingerechnet.
         `;
       }
 
