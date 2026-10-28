@@ -373,7 +373,42 @@
       align-items: center;
       margin-bottom: 28px;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 16px;
+    }
+
+    .calc-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .legal-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-sub);
+      cursor: pointer;
+      user-select: none;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .legal-checkbox-label:hover {
+      border-color: var(--accent-line);
+      color: var(--text);
+    }
+
+    .legal-checkbox-label input[type="checkbox"] {
+      accent-color: var(--accent);
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
     }
 
     .calc-toggle {
@@ -414,6 +449,7 @@
       .nav-links { display: none; }
       header { padding: 12px 16px; }
       .calc-box { padding: 20px; }
+      .calc-controls { width: 100%; justify-content: space-between; }
     }
 
     .slider-group { margin-bottom: 24px; }
@@ -777,16 +813,24 @@
       </div>
     </div>
 
-    <!-- Interactive Visual ROI Calculator (Mit erweitertem Range & scharfem Hinweistext) -->
+    <!-- Interactive Visual ROI Calculator (Mit Checkbox & dynamischem Gerichts-Szenario) -->
     <div class="calc-box" id="roi">
       <div class="calc-header">
         <div>
           <h2 style="margin:0; font-size: 24px; font-weight:800;">Wirtschaftlichkeits-Rechner</h2>
           <p style="color: var(--text-sub); margin: 4px 0 0 0; font-size: 14px;">Ermitteln Sie Ihren kalkulatorischen Schutz durch Veribase.</p>
         </div>
-        <div class="calc-toggle">
-          <button id="btnPeriodMonth" class="calc-toggle-btn active" onclick="setPeriod('month')">Monatlich</button>
-          <button id="btnPeriodYear" class="calc-toggle-btn" onclick="setPeriod('year')">Jährlich</button>
+        
+        <div class="calc-controls">
+          <label class="legal-checkbox-label">
+            <input type="checkbox" id="chkLegal" onchange="calculateROI()">
+            <span>Inkl. Gerichtskosten</span>
+          </label>
+
+          <div class="calc-toggle">
+            <button id="btnPeriodMonth" class="calc-toggle-btn active" onclick="setPeriod('month')">Monatlich</button>
+            <button id="btnPeriodYear" class="calc-toggle-btn" onclick="setPeriod('year')">Jährlich</button>
+          </div>
         </div>
       </div>
 
@@ -802,7 +846,7 @@
             <input type="range" id="inputIncidents" min="1" max="100" value="5" oninput="calculateROI()">
           </div>
 
-          <div class="calc-info-banner">
+          <div class="calc-info-banner" id="calcInfoBanner">
             <strong style="color:var(--text);">Konservativer Mindestwert:</strong><br>
             Dieser Rechner definiert das Unterlimit Ihres Einsparpotenzials. Die Formel berücksichtigt lediglich geringfügige Standardabzüge (350 €/Vorfall) sowie minimalen internen Klärungsaufwand (100 €/Vorfall). Rechtsschutz-, Anwalts- oder Gerichtsverfahren sind ausdrücklich <strong>nicht</strong> eingerechnet. Ihre tatsächliche Ersparnis im Betriebsalltag liegt in der Regel deutlich darüber.
           </div>
@@ -810,7 +854,7 @@
 
         <div class="calc-result-card">
           <div class="result-row">
-            <span style="color:var(--text-sub);">Abgewendete Rechnungsabzüge:</span>
+            <span id="lblLossTitle" style="color:var(--text-sub);">Abgewendete Rechnungsabzüge:</span>
             <span id="resLoss" style="color:#f87171; font-weight:700;">1.750 €</span>
           </div>
           <div class="result-row">
@@ -825,7 +869,7 @@
           <div class="result-total">
             <div style="font-size:11px; font-weight:800; color:var(--text-sub); letter-spacing:0.05em; text-transform:uppercase;">Geschützter Reingewinn (Nettovorteil)</div>
             <div class="result-number" id="resProfit">2.067 €</div>
-            <div style="font-size:12px; color:var(--text-sub);">Mindest-Einsparung für Ihren Betrieb</div>
+            <div style="font-size:12px; color:var(--text-sub);" id="lblProfitSubtitle">Mindest-Einsparung für Ihren Betrieb</div>
           </div>
         </div>
       </div>
@@ -977,20 +1021,25 @@
     function calculateROI() {
       const drivers = parseInt(document.getElementById('inputDrivers').value);
       const incidents = parseInt(document.getElementById('inputIncidents').value);
+      const includeLegal = document.getElementById('chkLegal').checked;
 
       document.getElementById('valDrivers').innerText = drivers;
       document.getElementById('valIncidents').innerText = incidents;
 
       const multiplier = currentPeriod === 'year' ? 12 : 1;
       
-      // Realistische, sehr konservative B2B-Annahmen
-      const lossPerIncident = 350; // Konservativer Schnitt pro abgewendeter Rechnungskürzung
-      const adminCostPerIncident = 100; // Konservative Dispo-Arbeitszeit (z. B. 2,5 Std. à 40 €)
+      // Basis-Werte: 350 € Rechnungskürzung, 100 € Dispo-Aufwand
+      // Gerichts-Option: zusätzlich +850 € pro Fall (sehr realistischer B2B-Ernstfall mit Anwalt & Gerichtskosten)
+      const baseLossPerIncident = 350;
+      const legalCostPerIncident = includeLegal ? 850 : 0;
+      const lossPerIncident = baseLossPerIncident + legalCostPerIncident;
+      
+      const adminCostPerIncident = 100;
 
       const totalLoss = incidents * lossPerIncident * multiplier;
       const totalAdmin = incidents * adminCostPerIncident * multiplier;
       
-      // Veribase-Kosten (Fleet Pro Base 99 € inkl. 3 Fahrern, danach 12 €/Fahrer; bei 1 Fahrer Solo-Pro 29 €)
+      // Veribase Software-Kosten
       let softwareCostMonthly = 99;
       if (drivers === 1) {
         softwareCostMonthly = 29;
@@ -1001,6 +1050,27 @@
       
       const softwareCost = softwareCostMonthly * multiplier;
       const netProfit = (totalLoss + totalAdmin) - softwareCost;
+
+      // Dynamische Text- & Beschriftungsanpassung je nach Checkbox
+      const infoBanner = document.getElementById('calcInfoBanner');
+      const lblLossTitle = document.getElementById('lblLossTitle');
+      const lblProfitSubtitle = document.getElementById('lblProfitSubtitle');
+
+      if (includeLegal) {
+        lblLossTitle.innerText = "Abgew. Rechnungs- & Gerichtsschäden:";
+        lblProfitSubtitle.innerText = "Kalkulierter Schutz bei juristischer Eskalation";
+        infoBanner.innerHTML = `
+          <strong style="color:var(--text);">Szenario inkl. juristischer Eskalation:</strong><br>
+          In dieser Kalkulation ist ein realistischer Mindestsatz für Anwalts-, Gutachter- und Gerichtsnebenkosten (+850 € pro Streitfall) enthalten. Fälschungssichere GPS-Wasserzeichen stoppen solche Verfahren oft vor dem ersten Kläger-Schriftsatz.
+        `;
+      } else {
+        lblLossTitle.innerText = "Abgewendete Rechnungsabzüge:";
+        lblProfitSubtitle.innerText = "Mindest-Einsparung für Ihren Betrieb";
+        infoBanner.innerHTML = `
+          <strong style="color:var(--text);">Konservativer Mindestwert:</strong><br>
+          Dieser Rechner definiert das Unterlimit Ihres Einsparpotenzials. Die Formel berücksichtigt lediglich geringfügige Standardabzüge (350 €/Vorfall) sowie minimalen internen Klärungsaufwand (100 €/Vorfall). Rechtsschutz-, Anwalts- oder Gerichtsverfahren sind ausdrücklich <strong>nicht</strong> eingerechnet. Ihre tatsächliche Ersparnis im Betriebsalltag liegt in der Regel deutlich darüber.
+        `;
+      }
 
       document.getElementById('resLoss').innerText = totalLoss.toLocaleString('de-DE') + ' €';
       document.getElementById('resAdmin').innerText = totalAdmin.toLocaleString('de-DE') + ' €';
