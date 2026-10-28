@@ -285,7 +285,7 @@
       line-height: 1.6;
     }
 
-    /* Vorher vs. Nachher Vergleich */
+    /* Vorher vs. Nachher Vergleich (Clean & Subtil) */
     .comparison-box {
       margin: 60px 0;
       background: var(--surface-solid);
@@ -301,27 +301,28 @@
     }
 
     .comp-card {
-      padding: 20px;
+      padding: 24px;
       border-radius: 14px;
     }
 
     .comp-card.before {
-      background: rgba(239, 68, 68, 0.05);
-      border: 1px solid rgba(239, 68, 68, 0.2);
+      background: rgba(239, 68, 68, 0.03);
+      border: 1px solid rgba(239, 68, 68, 0.12);
     }
 
     .comp-card.after {
-      background: rgba(16, 185, 129, 0.05);
-      border: 1px solid rgba(16, 185, 129, 0.2);
+      background: rgba(16, 185, 129, 0.03);
+      border: 1px solid rgba(16, 185, 129, 0.12);
     }
 
     .comp-title {
       font-size: 16px;
       font-weight: 800;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      color: var(--text);
     }
 
     .comp-list {
@@ -333,8 +334,15 @@
     }
 
     .comp-list li {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .comp-list li strong {
+      color: var(--text);
     }
 
     /* ROI Rechner */
@@ -661,35 +669,59 @@
 
     </div>
 
-    <!-- Vorher / Nachher Vergleich -->
+    <!-- Vorher / Nachher Vergleich (Clean & ohne Emojis) -->
     <div class="comparison-box" id="comparison">
       <h2 style="text-align:center; margin-top:0; font-size:22px; font-weight:800;">Der Veribase-Unterschied</h2>
       <p style="text-align:center; color:var(--text-sub); margin-bottom:24px; font-size:14px;">Warum herkömmliche Zettelwirtschaft & WhatsApp-Gruppen im Ernstfall scheitern.</p>
 
       <div class="comparison-grid">
         <div class="comp-card before">
-          <div class="comp-title" style="color:#f87171;">
+          <div class="comp-title">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             Ohne Veribase (Bisherig)
           </div>
           <ul class="comp-list">
-            <li>❌ <strong>Aussage gegen Aussage:</strong> Kunden behaupten, die Leistung wurde nicht erbracht.</li>
-            <li>❌ <strong>Manuelle Suchzeiten:</strong> Dispo durchsucht stundenlang alte Papierlisten und WhatsApp-Chats.</li>
-            <li>❌ <strong>Ungültige Beweise:</strong> Standard-Fotos ohne verifizierten GPS-Zeitstempel werden vor Gericht angezweifelt.</li>
-            <li>❌ <strong>Hohe Regresskosten:</strong> Einbehalte von Rechnungsbeträgen durch Auftraggeber.</li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5" style="flex-shrink:0; margin-top:3px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <span><strong>Aussage gegen Aussage:</strong> Kunden behaupten, die Leistung wurde nicht erbracht.</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5" style="flex-shrink:0; margin-top:3px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <span><strong>Manuelle Suchzeiten:</strong> Dispo durchsucht stundenlang alte Papierlisten und WhatsApp-Chats.</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5" style="flex-shrink:0; margin-top:3px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <span><strong>Ungültige Beweise:</strong> Standard-Fotos ohne verifizierten GPS-Zeitstempel werden vor Gericht angezweifelt.</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5" style="flex-shrink:0; margin-top:3px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <span><strong>Hohe Regresskosten:</strong> Einbehalte von Rechnungsbeträgen durch Auftraggeber.</span>
+            </li>
           </ul>
         </div>
 
         <div class="comp-card after">
-          <div class="comp-title" style="color:#34d399;">
+          <div class="comp-title">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
             Mit Veribase (Standard)
           </div>
           <ul class="comp-list">
-            <li>✅ <strong>Unumstößliche Gegenbeweise:</strong> Fälschungssichere Wasserzeichen stornieren unberechtigte Reklamationen sofort.</li>
-            <li>✅ <strong>1-Klick Audit:</strong> PDF-Leistungsnachweis mit Bildern & GPS-Log sofort per Mail senden.</li>
-            <li>✅ <strong>Kein Fahrerstress:</strong> Touren-App mit KI-Scan macht die Erfassung in 2 Sekunden möglich.</li>
-            <li>✅ <strong>Geschützter Umsatz:</strong> 100%ige Sicherheit gegen Rechnungskürzungen & Regressfälle.</li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" style="flex-shrink:0; margin-top:3px;"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Unumstößliche Gegenbeweise:</strong> Fälschungssichere Wasserzeichen stornieren unberechtigte Reklamationen sofort.</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" style="flex-shrink:0; margin-top:3px;"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>1-Klick Audit:</strong> PDF-Leistungsnachweis mit Bildern & GPS-Log sofort per Mail senden.</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" style="flex-shrink:0; margin-top:3px;"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Kein Fahrerstress:</strong> Touren-App mit KI-Scan macht die Erfassung in 2 Sekunden möglich.</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" style="flex-shrink:0; margin-top:3px;"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Geschützter Umsatz:</strong> 100%ige Sicherheit gegen Rechnungskürzungen & Regressfälle.</span>
+            </li>
           </ul>
         </div>
       </div>
