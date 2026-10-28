@@ -184,16 +184,6 @@ button:disabled { opacity: 0.3; cursor: not-allowed; }
   box-shadow: 0 4px 16px var(--accent-glow);
 }
 
-.btn-complete-action {
-  min-height: 48px;
-  font-size: 13px;
-  font-weight: 600;
-  background: var(--surface);
-  color: var(--text-sub);
-  border: 1px solid var(--accent-line);
-  box-shadow: var(--shadow);
-}
-
 .btn-danger {
   background: var(--danger-bg);
   color: var(--danger);
@@ -202,23 +192,41 @@ button:disabled { opacity: 0.3; cursor: not-allowed; }
 
 .btn-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
 
-/* Sowohl im Hell- als auch im Dunkelmodus innen weiß/hell mit lila Rand */
+/* "JETZT NAVIGIEREN" Button wieder im kräftigen Lila/Blau-Look */
 .btn-navigate {
   min-height: 64px;
   font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  background: #ffffff;
-  color: #0f172a;
-  border: 2px solid var(--accent);
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border: none !important;
   box-shadow: 0 6px 20px var(--accent-glow);
 }
 
 html[data-theme="dark"] .btn-navigate {
-  background: #ffffff;
-  color: #0f172a;
-  border: 2px solid var(--accent);
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+/* "Stopp erledigt" Button jetzt weiß mit lila Rand */
+.btn-complete-action {
+  min-height: 52px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+html[data-theme="dark"] .btn-complete-action {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 2px solid var(--accent) !important;
 }
 
 textarea, input[type="text"] {
@@ -377,7 +385,7 @@ input:checked + .slider:before { transform: translateX(18px); }
 }
 </style>
 
-  <!-- Strenger iOS PWA Navigation Fix (Verhindert das Ausbrechen in die Safari-Webansicht) -->
+  <!-- Strenger iOS PWA Navigation Fix -->
   <script>
     if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
       document.addEventListener('click', function(e) {
@@ -389,7 +397,7 @@ input:checked + .slider:before { transform: translateX(18px); }
       }, false);
     }
   </script>
-<!-- Service Worker Registrierung für PWA -->
+<!-- Service Worker Registrierung -->
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
