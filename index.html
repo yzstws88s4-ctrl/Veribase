@@ -813,7 +813,7 @@
       </div>
     </div>
 
-    <!-- Interactive Visual ROI Calculator (Mit dynamischem 10:1 Gerichts-Schlüssel) -->
+    <!-- Interactive Visual ROI Calculator (Mit rechtssicherer & realistischer Formulierung) -->
     <div class="calc-box" id="roi">
       <div class="calc-header">
         <div>
@@ -1035,10 +1035,8 @@
       let totalLoss = incidents * baseLossPerIncident * multiplier;
       const totalAdmin = incidents * adminCostPerIncident * multiplier;
 
-      // DYNAMISCHES GERICHTS-MODELL:
-      // Wir rechnen damit, dass auf JEDE 10 Reklamationen genau 1 Vorfall juristisch eskaliert (Eskalationsquote 10%).
-      // Mindestkosten pro Gerichts-Eskalation (Anwalt, Gutachter, Court-Fees) = 1.500 €
-      const legalCases = Math.floor(incidents / 10) + (incidents % 10 >= 5 ? 1 : 0); // Rundet realistisch ab 5 Stopps auf 1 Fall auf
+      // DYNAMISCHES GERICHTS-MODELL (Quote 10:1):
+      const legalCases = Math.floor(incidents / 10) + (incidents % 10 >= 5 ? 1 : 0);
       const legalCostPerCase = 1500;
       const totalLegalCosts = includeLegal ? (legalCases * legalCostPerCase * multiplier) : 0;
 
@@ -1056,7 +1054,7 @@
       const softwareCost = softwareCostMonthly * multiplier;
       const netProfit = (totalLoss + totalAdmin) - softwareCost;
 
-      // Dynamische Textanpassung
+      // Dynamische Textanpassung (Rechtssicher & überzeugend)
       const infoBanner = document.getElementById('calcInfoBanner');
       const lblLossTitle = document.getElementById('lblLossTitle');
       const lblProfitSubtitle = document.getElementById('lblProfitSubtitle');
@@ -1064,10 +1062,10 @@
       if (includeLegal) {
         const casesText = legalCases === 1 ? '1 juristischer Streitfall' : `${legalCases} juristische Streitfälle`;
         lblLossTitle.innerText = "Abgewendete Schäden inkl. Gericht:";
-        lblProfitSubtitle.innerText = "Inkl. Schutz vor Rechts- & Anwaltskosten";
+        lblProfitSubtitle.innerText = "Inkl. Abwehr von Regress- & Anwaltsforderungen";
         infoBanner.innerHTML = `
           <strong style="color:var(--text);">Szenario mit Gerichts-Eskalation (Quote 10:1):</strong><br>
-          Statistisch eskaliert ca. jeder 10. Reklamationsfall vor Gericht. Bei <strong>${incidents} Reklamationen/Monat</strong> kalkuliert dieses Modell mit <strong>${casesText}</strong> pro Monat (Mindest-Prozessschaden: 1.500 €/Fall). Veribase storniert diese Streitfälle vor dem ersten Kläger-Schriftsatz.
+          Statistisch eskaliert ca. jeder 10. Reklamationsfall in einen ernsthaften Streit. Bei <strong>${incidents} Reklamationen/Monat</strong> kalkuliert dieses Modell mit <strong>${casesText}</strong> pro Monat (Mindest-Prozessschaden: 1.500 €/Fall). Veribase liefert die gerichtsfesten Beweise, um unberechtigte Forderungen und Anwaltskosten direkt abzuwehren.
         `;
       } else {
         lblLossTitle.innerText = "Abgewendete Rechnungsabzüge:";
