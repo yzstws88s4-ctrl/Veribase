@@ -239,9 +239,9 @@
   </div>
 
   <script>
-    // --- SUPABASE KONFIGURATION ---
-    const SUPABASE_URL = 'DEINE_SUPABASE_URL';
-    const SUPABASE_ANON_KEY = 'DEINE_SUPABASE_ANON_KEY';
+    // --- SUPABASE KONFIGURATION (JETZT DIREKT ANGESCHLOSSEN) ---
+    const SUPABASE_URL = 'https://cvfbkxzhpxopbkaymvvf.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_EK07XF7umKLsdfbRK9p6gQ_0-5AkSjb';
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // E-Mail automatisch aus der URL auslesen ( register.html?email=chef@firma.de )
@@ -280,7 +280,7 @@
           password: password,
           options: {
             data: {
-              name: chefName, // Speichert genau das Feld "name", wie bei deinen Fahrern
+              name: chefName, // Speichert das Feld "name" für die "Hallo [Name]" Begrüßung
               role: 'admin'  // Kennzeichnet den User als Chef/Admin
             }
           }
