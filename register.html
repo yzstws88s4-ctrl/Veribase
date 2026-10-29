@@ -136,8 +136,9 @@
     }
 
     input:disabled {
-      opacity: 0.6;
+      opacity: 0.7;
       cursor: not-allowed;
+      background: rgba(255, 255, 255, 0.02);
     }
 
     .btn-submit {
@@ -216,8 +217,8 @@
     <form id="registerForm" onsubmit="handleRegister(event)">
       <div class="form-group">
         <label for="email">E-Mail-Adresse</label>
-        <!-- Das Feld ist disabled (gesperrt), damit man es nicht ändern kann -->
-        <input type="email" id="email" required placeholder="name@firma.de" disabled>
+        <!-- Kein 'disabled' im HTML, damit JavaScript es problemlos befüllen kann -->
+        <input type="email" id="email" required placeholder="Wird geladen...">
       </div>
 
       <div class="form-group">
@@ -244,7 +245,7 @@
     const SUPABASE_ANON_KEY = 'DEINE_SUPABASE_ANON_KEY';
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // E-Mail direkt und bombensicher aus der URL auslesen (?email=...)
+    // E-Mail sofort beim Laden aus der URL holen, eintragen und erst DANN sperren
     window.addEventListener('DOMContentLoaded', () => {
       const emailInput = document.getElementById('email');
       const alertBox = document.getElementById('alertBox');
@@ -253,10 +254,11 @@
       const emailParam = params.get('email');
 
       if (emailParam) {
-        emailInput.value = emailParam;
+        emailInput.value = emailParam; // E-Mail-Adresse sauber eintragen
+        emailInput.disabled = true;    // Feld im Anschluss sofort sperren
       } else {
         alertBox.className = "alert error";
-        alertBox.innerText = "Keine E-Mail-Adresse übergeben. Bitte nutzen Sie den Link aus Ihrer Willkommens-E-Mail.";
+        alertBox.innerText = "Keine E-Mail-Adresse übergeben. Bitte nutzen Sie den Link aus Ihrer E-Mail.";
         alertBox.style.display = 'block';
       }
     });
@@ -264,8 +266,9 @@
     async function handleRegister(event) {
       event.preventDefault();
       
-      // Da das E-Mail-Feld "disabled" ist, liest .value den Wert trotzdem sauber aus
-      const email = document.getElementById('email').value.trim();
+      // E-Mail sicher aus der URL auslesen (da das Feld disabled ist)
+      const params = new URLSearchParams(window.location.search);
+      const email = params.get('email') || document.getElementById('email').value.trim();
       const company = document.getElementById('company').value.trim();
       const password = document.getElementById('password').value;
       const submitBtn = document.getElementById('submitBtn');
@@ -276,22 +279,24 @@
       alertBox.style.display = 'none';
 
       try {
-        // Da der User in Supabase bereits per Hand angelegt wurde,
-        // können wir hier zum Beispiel ein Update des Passworts anstoßen 
-        // oder ihn direkt anmelden. 
-        // Am einfachsten für den Übergang: 
-        const { data, error } = await supabase.auth.signUp({
+        // 1. Kurz mit dem von dir in Supabase angelegten Standard-Passwort (123456) einloggen
+        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
           email: email,
+          password: '123456'
+        });
+
+        if (signInError) throw new Error("Konto konnte nicht zugeordnet werden. Wurde der User in Supabase angelegt?");
+
+        // 2. Direkt im Anschluss das Passwort auf das echte Wunschpasswort ändern und Unternehmensname speichern
+        const { error: updateError } = await supabase.auth.updateUser({
           password: password,
-          options: {
-            data: {
-              company_name: company,
-              role: 'admin'
-            }
+          data: {
+            company_name: company,
+            role: 'admin'
           }
         });
 
-        if (error) throw error;
+        if (updateError) throw updateError;
 
         alertBox.className = "alert success";
         alertBox.innerText = "Konto erfolgreich aktiviert! Sie werden zum Login weitergeleitet...";
