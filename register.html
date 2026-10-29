@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Veribase – Administrator-Konto einrichten</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --bg: #030712;
+      --surface: rgba(17, 24, 39, 0.75);
+      --text: #f9fafb;
+      --text-sub: #9ca3af;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --accent-glow: rgba(99, 102, 241, 0.25);
+      --accent-line: rgba(99, 102, 241, 0.4);
+      --border: rgba(255, 255, 255, 0.08);
+      --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .glow-bg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 500px;
+      height: 400px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, rgba(3,7,18,0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .register-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      position: relative;
+      z-index: 1;
+      margin: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+
+    .brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--accent-line);
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 800;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.02em;
+    }
+
+    p.subtitle {
+      color: var(--text-sub);
+      font-size: 14px;
+      margin: 0 0 24px 0;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-sub);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    input:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--accent);
+      color: #ffffff;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14.5px;
+      cursor: pointer;
+      box-shadow: 0 4px 18px var(--accent-glow);
+      transition: all 0.2s ease;
+      margin-top: 8px;
+    }
+
+    .btn-submit:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .alert {
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .alert.error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+    }
+
+    .alert.success {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13.5px;
+      color: var(--text-sub);
+    }
+
+    .login-link a {
+      color: #818cf8;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-bg"></div>
+
+  <div class="register-card">
+    <a href="index.html" class="brand">
+      <img src="logo.png" alt="Veribase Logo">
+      <span class="brand-name">Veribase</span>
+    </a>
+
+    <h1>Konto einrichten</h1>
+    <p class="subtitle">Legen Sie Ihr Passwort fest, um Ihr Administrator-Dashboard zu aktivieren.</p>
+
+    <div id="alertBox" class="alert"></div>
+
+    <form id="registerForm" onsubmit="handleRegister(event)">
+      <div class="form-group">
+        <label for="email">E-Mail-Adresse</label>
+        <input type="email" id="email" required placeholder="name@firma.de">
+      </div>
+
+      <div class="form-group">
+        <label for="company">Unternehmensname</label>
+        <input type="text" id="company" required placeholder="Musterfirma GmbH">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Wunschpasswort</label>
+        <input type="password" id="password" required placeholder="Min. 6 Zeichen" minlength="6">
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">Konto aktivieren &rarr;</button>
+    </form>
+
+    <div class="login-link">
+      Bereits ein Konto? <a href="login.html">Anmelden</a>
+    </div>
+  </div>
+
+  <script>
+    // --- SUPABASE KONFIGURATION (Hier deine Projekt-Daten eintragen) ---
+    const SUPABASE_URL = 'DEINE_SUPABASE_URL';
+    const SUPABASE_ANON_KEY = 'DEINE_SUPABASE_ANON_KEY';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // E-Mail aus der URL automatisch auslesen (z.B. register.html?email=kunde@test.de)
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const emailParam = params.get('email');
+      if (emailParam) {
+        document.getElementById('email').value = emailParam;
+      }
+    });
+
+    async function handleRegister(event) {
+      event.preventDefault();
+      
+      const email = document.getElementById('email').value.trim();
+      const company = document.getElementById('company').value.trim();
+      const password = document.getElementById('password').value;
+      const submitBtn = document.getElementById('submitBtn');
+      const alertBox = document.getElementById('alertBox');
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Wird erstellt...";
+      alertBox.style.display = 'none';
+
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              company_name: company,
+              role: 'admin'
+            }
+          }
+        });
+
+        if (error) throw error;
+
+        alertBox.className = "alert success";
+        alertBox.innerText = "Konto erfolgreich erstellt! Sie werden zum Login weitergeleitet...";
+        alertBox.style.display = 'block';
+
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 2000);
+
+      } catch (err) {
+        alertBox.className = "alert error";
+        alertBox.innerText = "Fehler: " + (err.message || "Registrierung fehlgeschlagen.");
+        alertBox.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Konto aktivieren →";
+      }
+    }
+  </script>
+</body>
+</html>
