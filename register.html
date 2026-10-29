@@ -245,29 +245,42 @@
 
     // Beim Laden der Seite prüfen, ob der User über den Einladungs-Link kommt
     window.addEventListener('DOMContentLoaded', async () => {
+      const emailInput = document.getElementById('email');
       const alertBox = document.getElementById('alertBox');
-      
+
       try {
-        // Supabase holt die Session aus dem URL-Hash (Einladungs-Token)
-        const { data: { session }, error } = await supabase.auth.getSession();
+        // 1. Direkt versuchen, die aktive Session aus dem Token-Hash zu holen
+        const { data: { session } } = await supabase.auth.getSession();
         
         if (session && session.user) {
-          document.getElementById('email').value = session.user.email;
+          emailInput.value = session.user.email;
         } else {
-          // Fallback falls die E-Mail als normaler URL-Parameter übergeben wurde
+          // 2. Auf Auth-Zustandsänderung warten (falls der Hash im Hintergrund verarbeitet wird)
+          supabase.auth.onAuthStateChange(async (event, currentSession) => {
+            if (currentSession && currentSession.user) {
+              emailInput.value = currentSession.user.email;
+            }
+          });
+
+          // 3. Fallback über URL-Parameter
           const params = new URLSearchParams(window.location.search);
           const emailParam = params.get('email');
           if (emailParam) {
-            document.getElementById('email').value = emailParam;
-          } else {
-            alertBox.className = "alert error";
-            alertBox.innerText = "Kein gültiger Einladungs-Link gefunden. Bitte nutzen Sie den Link aus der E-Mail.";
-            alertBox.style.display = 'block';
+            emailInput.value = emailParam;
           }
         }
       } catch (err) {
         console.error("Session-Fehler:", err);
       }
+
+      // Kleine Sicherheitsprüfung nach kurzer Zeit
+      setTimeout(() => {
+        if (!emailInput.value || emailInput.value === 'name@firma.de') {
+          alertBox.className = "alert error";
+          alertBox.innerText = "Keine E-Mail aus dem Einladungs-Link erkannt. Bitte öffnen Sie den Link direkt aus der E-Mail.";
+          alertBox.style.display = 'block';
+        }
+      }, 2000);
     });
 
     async function handleRegister(event) {
