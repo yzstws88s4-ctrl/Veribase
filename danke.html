@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veribase – Vielen Dank für Ihre Buchung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-family: 'Plus Jakarta Sans', sans-serif;
+      --bg: #030712;
+      --surface: rgba(17, 24, 39, 0.75);
+      --text: #f9fafb;
+      --text-sub: #9ca3af;
+      --accent: #6366f1;
+      --border: rgba(255, 255, 255, 0.08);
+      --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0; min-height: 100vh;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%; max-width: 480px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      margin: 20px;
+    }
+    .icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    h1 { font-size: 24px; font-weight: 800; margin: 0 0 12px 0; }
+    p { color: var(--text-sub); font-size: 14px; line-height: 1.6; margin: 0 0 24px 0; }
+    .btn {
+      display: inline-block;
+      background: var(--accent); color: #ffffff;
+      padding: 12px 24px; border-radius: 10px;
+      text-decoration: none; font-weight: 700; font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">🎉</div>
+    <h1>Vielen Dank für Ihre Buchung!</h1>
+    <p>Ihre Zahlung war erfolgreich. Wir bereiten Ihren Zugang vor. Sie erhalten in Kürze eine E-Mail mit Ihrem persönlichen Link, um Ihr Administrator-Konto einzurichten.</p>
+    <a href="index.html" class="btn">Zur Startseite</a>
+  </div>
+</body>
+</html>
