@@ -494,6 +494,24 @@ tr:last-child td { border-bottom: none; }
   <span id="toastMessage">Aktion erfolgreich</span>
 </div>
 
+<!-- MODAL FÜR TARIF-WARNUNG BEI FAHRER-HINZUFÜGEN -->
+<div id="stripeUpgradeModal" class="modal-backdrop" style="display:none;">
+  <div class="modal-window" style="max-width: 440px; text-align: center;">
+    <div style="font-size: 32px; margin-bottom: 12px;">⚠️</div>
+    <h3 style="margin: 0 0 10px 0; font-size: 18px; font-weight: 800;">Neuen Fahrer hinzufügen</h3>
+    <p style="font-size: 13px; color: var(--text-sub); line-height: 1.5; margin-bottom: 20px;">
+      Achtung: Du bist dabei, einen weiteren Fahrer in deinem Team anzulegen. Dein aktueller Tarif ändert sich dadurch um die Zusatzgebühr für den zusätzlichen Fahrerplatz.
+    </p>
+    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px; font-size: 13px; font-weight: 700; margin-bottom: 20px; color: var(--accent);">
+      Möchtest du fortfahren und den Zusatzfahrer jetzt über Stripe freischalten?
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <button class="utility-pill" onclick="closeStripeUpgradeModal()" style="flex: 1; justify-content: center; padding: 12px;">Abbrechen</button>
+      <button class="btn-main" onclick="proceedToStripeCheckout()" style="flex: 1; justify-content: center;">Ja, zu Stripe 🚀</button>
+    </div>
+  </div>
+</div>
+
 <div class="app-container">
 
   <div class="top-section">
@@ -506,7 +524,8 @@ tr:last-child td { border-bottom: none; }
           <img src="logo1.png" alt="Logo" onerror="this.style.display='none'"> Veribase Command Center
         </div>
       </div>
-      <div style="display:flex; gap:10px;">
+      <div style="display:flex; gap:10px; align-items: center;">
+        <span id="chefGreetingLabel" style="font-size: 13px; font-weight: 700; color: var(--text-main);">Hallo Chef</span>
         <button class="utility-pill" onclick="toggleTheme()">Design wechseln</button>
         <button class="utility-pill" onclick="logout()" style="color: var(--danger); border-color: rgba(239,68,68,0.2);">Abmelden</button>
       </div>
@@ -589,7 +608,7 @@ tr:last-child td { border-bottom: none; }
       <div class="grid-2">
         <div class="form-card-box">
           <div class="card-header" style="margin-bottom:16px;">Neuen Fahrer anlegen</div>
-          <form id="addWorkerForm" onsubmit="addEmployee(event)">
+          <form id="addWorkerForm" onsubmit="interceptAddEmployee(event)">
             <label>Vollständiger Name</label>
             <input type="text" id="empName" placeholder="z. B. Max Mustermann" required>
             
@@ -600,7 +619,7 @@ tr:last-child td { border-bottom: none; }
             <input type="password" id="empPassword" placeholder="••••••••" required>
             
             <button type="submit" id="addEmpBtn" class="btn-main" style="margin-top:10px;">
-              <span>+ Fahrer erstellen</span>
+              <span>+ Fahrer erstellen & Bezahlen</span>
             </button>
           </form>
         </div>
@@ -969,6 +988,12 @@ window.onload = async () => {
       return;
     }
     currentChef = session.user;
+    
+    // Begrüßung des Chefs dynamisch auslesen (Name / full_name)
+    const meta = currentChef.user_metadata || {};
+    const chefName = meta.name || meta.full_name || currentChef.email?.split('@')[0] || 'Chef';
+    document.getElementById('chefGreetingLabel').innerText = `Hallo ${chefName}`;
+
     loadCompanyProfile();
     await loadDriversFromSupabase();
     await loadToursFromSupabase();
@@ -1263,16 +1288,37 @@ async function deleteDriver(id, name) {
   await loadToursFromSupabase();
 }
 
-async function addEmployee(e) {
+// -------------------------------------------------------------
+// STRIPE UPGRADE LOGIK BEIM HINZUFÜGEN VON FAHRERN
+// -------------------------------------------------------------
+function interceptAddEmployee(e) {
   e.preventDefault();
-  const btn = document.getElementById('addEmpBtn');
   const name = document.getElementById('empName').value.trim();
-  let username = document.getElementById('empUsername').value.trim().toLowerCase();
+  const username = document.getElementById('empUsername').value.trim();
   const password = document.getElementById('empPassword').value.trim();
 
   if (!name || !username || !password) return;
-  btn.disabled = true;
 
+  // Temporär im localStorage zwischenspeichern, damit nach erfolgreicher Zahlung fortgefahren werden kann falls nötig
+  localStorage.setItem('pending_driver_name', name);
+  localStorage.setItem('pending_driver_username', username);
+  localStorage.setItem('pending_driver_password', password);
+
+  // In-App Benachrichtigung / Modal öffnen
+  document.getElementById('stripeUpgradeModal').style.display = 'flex';
+}
+
+function closeStripeUpgradeModal() {
+  document.getElementById('stripeUpgradeModal').style.display = 'none';
+}
+
+function proceedToStripeCheckout() {
+  closeStripeUpgradeModal();
+  // Weiterleitung zum Stripe Kauflink für Zusatzfahrer
+  window.location.href = 'https://buy.stripe.com/7sY28qarXfAsdCb2gzdby02';
+}
+
+async function addEmployeeDirectly(name, username, password) {
   const emailForAuth = username.includes('@') ? username : `${username}@app.local`;
 
   const { data, error } = await supabaseClient.rpc('create_driver_by_chef', {
@@ -1281,13 +1327,11 @@ async function addEmployee(e) {
 
   if (error || (data && !data.success)) {
     showToast('Fehler: ' + (error?.message || data?.error || 'Unbekannt'), '⚠️');
-    btn.disabled = false;
     return;
   }
 
-  showToast(`Fahrer "${name}" erstellt!`);
+  showToast(`Fahrer "${name}" erfolgreich erstellt!`);
   document.getElementById('addWorkerForm').reset();
-  btn.disabled = false;
   await loadDriversFromSupabase();
 }
 
