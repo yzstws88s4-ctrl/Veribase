@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Veribase – Administrator-Konto einrichten</title>
+  <title>Veribase – Konto einrichten</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -135,8 +135,9 @@
       box-shadow: 0 0 0 3px var(--accent-glow);
     }
 
-    input:disabled {
-      opacity: 0.6;
+    input:read-only {
+      opacity: 0.7;
+      background: rgba(255, 255, 255, 0.02);
       cursor: not-allowed;
     }
 
@@ -209,19 +210,19 @@
     </a>
 
     <h1>Konto einrichten</h1>
-    <p class="subtitle">Legen Sie Ihr Passwort fest, um Ihr Administrator-Dashboard zu aktivieren.</p>
+    <p class="subtitle">Legen Sie Ihren Begrüßungsnamen und Ihr Passwort für das Chef-Dashboard fest.</p>
 
     <div id="alertBox" class="alert"></div>
 
     <form id="registerForm" onsubmit="handleRegister(event)">
       <div class="form-group">
-        <label for="email">E-Mail-Adresse</label>
-        <input type="email" id="email" required placeholder="name@firma.de">
+        <label for="email">E-Mail-Adresse (Login)</label>
+        <input type="email" id="email" required readonly placeholder="name@firma.de">
       </div>
 
       <div class="form-group">
-        <label for="company">Unternehmensname</label>
-        <input type="text" id="company" required placeholder="Musterfirma GmbH">
+        <label for="name">Dein Name (für die Begrüßung)</label>
+        <input type="text" id="name" required placeholder="z. B. Björn">
       </div>
 
       <div class="form-group">
@@ -233,17 +234,17 @@
     </form>
 
     <div class="login-link">
-      Bereits ein Konto? <a href="login.html">Anmelden</a>
+      Bereits registriert? <a href="login.html">Hier anmelden</a>
     </div>
   </div>
 
   <script>
-    // --- SUPABASE KONFIGURATION (Hier deine Projekt-Daten eintragen) ---
+    // --- SUPABASE KONFIGURATION ---
     const SUPABASE_URL = 'DEINE_SUPABASE_URL';
     const SUPABASE_ANON_KEY = 'DEINE_SUPABASE_ANON_KEY';
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // E-Mail aus der URL automatisch auslesen (z.B. register.html?email=kunde@test.de)
+    // E-Mail automatisch aus der URL auslesen ( register.html?email=chef@firma.de )
     window.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
       const emailParam = params.get('email');
@@ -256,23 +257,31 @@
       event.preventDefault();
       
       const email = document.getElementById('email').value.trim();
-      const company = document.getElementById('company').value.trim();
+      const chefName = document.getElementById('name').value.trim();
       const password = document.getElementById('password').value;
       const submitBtn = document.getElementById('submitBtn');
       const alertBox = document.getElementById('alertBox');
 
+      if (!email) {
+        alertBox.className = "alert error";
+        alertBox.innerText = "Bitte nutze den Registrierungs-Link aus deiner E-Mail.";
+        alertBox.style.display = 'block';
+        return;
+      }
+
       submitBtn.disabled = true;
-      submitBtn.innerText = "Wird erstellt...";
+      submitBtn.innerText = "Wird eingerichtet...";
       alertBox.style.display = 'none';
 
       try {
+        // Registrierung bei Supabase mit Speicherung des Vornamens & der Rolle "admin/chef"
         const { data, error } = await supabase.auth.signUp({
           email: email,
           password: password,
           options: {
             data: {
-              company_name: company,
-              role: 'admin'
+              name: chefName, // Speichert genau das Feld "name", wie bei deinen Fahrern
+              role: 'admin'  // Kennzeichnet den User als Chef/Admin
             }
           }
         });
@@ -280,12 +289,12 @@
         if (error) throw error;
 
         alertBox.className = "alert success";
-        alertBox.innerText = "Konto erfolgreich erstellt! Sie werden zum Login weitergeleitet...";
+        alertBox.innerText = "Konto erfolgreich eingerichtet! Du wirst zum Dashboard weitergeleitet...";
         alertBox.style.display = 'block';
 
         setTimeout(() => {
           window.location.href = "login.html";
-        }, 2000);
+        }, 1800);
 
       } catch (err) {
         alertBox.className = "alert error";
