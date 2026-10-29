@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Veribase – Konto einrichten</title>
+  <title>Veribase – Administrator-Konto einrichten</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -135,9 +135,8 @@
       box-shadow: 0 0 0 3px var(--accent-glow);
     }
 
-    input:read-only {
-      opacity: 0.7;
-      background: rgba(255, 255, 255, 0.02);
+    input:disabled {
+      opacity: 0.6;
       cursor: not-allowed;
     }
 
@@ -210,19 +209,19 @@
     </a>
 
     <h1>Konto einrichten</h1>
-    <p class="subtitle">Legen Sie Ihren Begrüßungsnamen und Ihr Passwort für das Chef-Dashboard fest.</p>
+    <p class="subtitle">Legen Sie Ihr Passwort fest, um Ihr Administrator-Dashboard zu aktivieren.</p>
 
     <div id="alertBox" class="alert"></div>
 
     <form id="registerForm" onsubmit="handleRegister(event)">
       <div class="form-group">
-        <label for="email">E-Mail-Adresse (Login)</label>
-        <input type="email" id="email" required readonly placeholder="name@firma.de">
+        <label for="email">E-Mail-Adresse</label>
+        <input type="email" id="email" required placeholder="name@firma.de" disabled>
       </div>
 
       <div class="form-group">
-        <label for="name">Dein Name (für die Begrüßung)</label>
-        <input type="text" id="name" required placeholder="z. B. Björn">
+        <label for="company">Unternehmensname</label>
+        <input type="text" id="company" required placeholder="Musterfirma GmbH">
       </div>
 
       <div class="form-group">
@@ -234,71 +233,78 @@
     </form>
 
     <div class="login-link">
-      Bereits registriert? <a href="login.html">Hier anmelden</a>
+      Bereits ein Konto? <a href="login.html">Anmelden</a>
     </div>
   </div>
 
   <script>
-    // --- SUPABASE KONFIGURATION (JETZT DIREKT ANGESCHLOSSEN) ---
-    const SUPABASE_URL = 'https://cvfbkxzhpxopbkaymvvf.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_EK07XF7umKLsdfbRK9p6gQ_0-5AkSjb';
+    // --- SUPABASE KONFIGURATION ---
+    const SUPABASE_URL = 'DEINE_SUPABASE_URL';
+    const SUPABASE_ANON_KEY = 'DEINE_SUPABASE_ANON_KEY';
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // E-Mail automatisch aus der URL auslesen ( register.html?email=chef@firma.de )
-    window.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const emailParam = params.get('email');
-      if (emailParam) {
-        document.getElementById('email').value = emailParam;
+    // Beim Laden der Seite prüfen, ob der User über den Einladungs-Link kommt
+    window.addEventListener('DOMContentLoaded', async () => {
+      const alertBox = document.getElementById('alertBox');
+      
+      try {
+        // Supabase holt die Session aus dem URL-Hash (Einladungs-Token)
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (session && session.user) {
+          document.getElementById('email').value = session.user.email;
+        } else {
+          // Fallback falls die E-Mail als normaler URL-Parameter übergeben wurde
+          const params = new URLSearchParams(window.location.search);
+          const emailParam = params.get('email');
+          if (emailParam) {
+            document.getElementById('email').value = emailParam;
+          } else {
+            alertBox.className = "alert error";
+            alertBox.innerText = "Kein gültiger Einladungs-Link gefunden. Bitte nutzen Sie den Link aus der E-Mail.";
+            alertBox.style.display = 'block';
+          }
+        }
+      } catch (err) {
+        console.error("Session-Fehler:", err);
       }
     });
 
     async function handleRegister(event) {
       event.preventDefault();
       
-      const email = document.getElementById('email').value.trim();
-      const chefName = document.getElementById('name').value.trim();
+      const company = document.getElementById('company').value.trim();
       const password = document.getElementById('password').value;
       const submitBtn = document.getElementById('submitBtn');
       const alertBox = document.getElementById('alertBox');
 
-      if (!email) {
-        alertBox.className = "alert error";
-        alertBox.innerText = "Bitte nutze den Registrierungs-Link aus deiner E-Mail.";
-        alertBox.style.display = 'block';
-        return;
-      }
-
       submitBtn.disabled = true;
-      submitBtn.innerText = "Wird eingerichtet...";
+      submitBtn.innerText = "Wird aktiviert...";
       alertBox.style.display = 'none';
 
       try {
-        // Registrierung bei Supabase mit Speicherung des Vornamens & der Rolle "admin/chef"
-        const { data, error } = await supabase.auth.signUp({
-          email: email,
+        // Da der User bereits existiert, aktualisieren wir ihn (Passwort setzen + Metadaten)
+        const { data, error } = await supabase.auth.updateUser({
           password: password,
-          options: {
-            data: {
-              name: chefName, // Speichert das Feld "name" für die "Hallo [Name]" Begrüßung
-              role: 'admin'  // Kennzeichnet den User als Chef/Admin
-            }
+          data: {
+            company_name: company,
+            role: 'admin'
           }
         });
 
         if (error) throw error;
 
         alertBox.className = "alert success";
-        alertBox.innerText = "Konto erfolgreich eingerichtet! Du wirst zum Dashboard weitergeleitet...";
+        alertBox.innerText = "Konto erfolgreich aktiviert! Sie werden zum Login weitergeleitet...";
         alertBox.style.display = 'block';
 
         setTimeout(() => {
           window.location.href = "login.html";
-        }, 1800);
+        }, 2000);
 
       } catch (err) {
         alertBox.className = "alert error";
-        alertBox.innerText = "Fehler: " + (err.message || "Registrierung fehlgeschlagen.");
+        alertBox.innerText = "Fehler: " + (err.message || "Konto-Aktivierung fehlgeschlagen.");
         alertBox.style.display = 'block';
         submitBtn.disabled = false;
         submitBtn.innerText = "Konto aktivieren →";
