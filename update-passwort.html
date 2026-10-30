@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passwort festlegen - Veribase</title>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --border-color: #334155;
+            --error-color: #ef4444;
+            --success-color: #22c55e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .auth-container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .message {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        .error {
+            color: var(--error-color);
+        }
+
+        .success {
+            color: var(--success-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Veribase</h1>
+            <p>Lege dein neues Passwort fest, um dein Konto zu aktivieren.</p>
+        </div>
+
+        <form id="update-password-form" onsubmit="handlePasswordUpdate(event)">
+            <div class="form-group">
+                <label for="new-password">Neues Passwort</label>
+                <input type="password" id="new-password" required placeholder="••••••••" minlength="6">
+            </div>
+
+            <button type="submit" class="btn" id="submit-btn">Passwort speichern</button>
+        </form>
+
+        <div id="message-box" class="message"></div>
+    </div>
+
+    <script>
+        // Supabase Konfiguration
+        const SUPABASE_URL = 'https://cvfbkxzfpxopbkaymvvf.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_EK07XF7umKl..'; // <-- Deinen anonymen Public/Publishable Key hier einfügen falls nötig, oder übergeben
+        
+        // Hinweis: Da der Client über den Invite-Link bereits den Token im Hash hat, initialisieren wir den Client standardmäßig
+        const supabaseClient = supabase.createClient(SUPABASE_URL, 'DEIN_ANON_PUBLIC_KEY_HIER_EINTRAGEN');
+
+        async function handlePasswordUpdate(event) {
+            event.preventDefault();
+            
+            const passwordInput = document.getElementById('new-password').value;
+            const messageBox = document.getElementById('message-box');
+            const submitBtn = document.getElementById('submit-btn');
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Wird gespeichert...';
+            messageBox.textContent = '';
+
+            try {
+                // Supabase aktualisiert das Passwort des eingeloggten/eingeladenen Nutzers anhand des URL-Tokens
+                const { data, error } = await supabaseClient.auth.updateUser({
+                    password: passwordInput
+                });
+
+                if (error) throw error;
+
+                messageBox.className = 'message success';
+                messageBox.textContent = 'Passwort erfolgreich festgelegt! Du wirst weitergeleitet...';
+
+                // Nach 2 Sekunden automatisch zum Login oder Dashboard weiterleiten
+                setTimeout(() => {
+                    window.location.href = 'index.html'; // Passe das Ziel (z.B. login.html) bei Bedarf an
+                }, 2000);
+
+            } catch (err) {
+                messageBox.className = 'message error';
+                messageBox.textContent = 'Fehler: ' + err.message;
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Passwort speichern';
+            }
+        }
+    </script>
+</body>
+</html>
