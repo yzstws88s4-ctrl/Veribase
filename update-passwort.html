@@ -143,12 +143,11 @@
     </div>
 
     <script>
-        // Supabase Konfiguration
+        // Supabase Konfiguration mit deinem Projekt und deinem korrekten anon/public Key
         const SUPABASE_URL = 'https://cvfbkxzfpxopbkaymvvf.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_EK07XF7umKl..'; // <-- Deinen anonymen Public/Publishable Key hier einfügen falls nötig, oder übergeben
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2ZmJreHpocHhvcGJrYXltdnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExOTEwMzYsImV4cCI6MjEwNjc2NzAzNn0.E96FjN8lQvjJcZn3kHhAk5uVa-mzzan63gPb9z5vJqw';
         
-        // Hinweis: Da der Client über den Invite-Link bereits den Token im Hash hat, initialisieren wir den Client standardmäßig
-        const supabaseClient = supabase.createClient(SUPABASE_URL, 'DEIN_ANON_PUBLIC_KEY_HIER_EINTRAGEN');
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         async function handlePasswordUpdate(event) {
             event.preventDefault();
@@ -162,7 +161,7 @@
             messageBox.textContent = '';
 
             try {
-                // Supabase aktualisiert das Passwort des eingeloggten/eingeladenen Nutzers anhand des URL-Tokens
+                // Supabase aktualisiert das Passwort anhand des Tokens in der URL
                 const { data, error } = await supabaseClient.auth.updateUser({
                     password: passwordInput
                 });
@@ -172,9 +171,9 @@
                 messageBox.className = 'message success';
                 messageBox.textContent = 'Passwort erfolgreich festgelegt! Du wirst weitergeleitet...';
 
-                // Nach 2 Sekunden automatisch zum Login oder Dashboard weiterleiten
+                // Nach 2 Sekunden zur Login-Seite weiterleiten
                 setTimeout(() => {
-                    window.location.href = 'index.html'; // Passe das Ziel (z.B. login.html) bei Bedarf an
+                    window.location.href = 'login.html';
                 }, 2000);
 
             } catch (err) {
